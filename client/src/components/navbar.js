@@ -10,7 +10,7 @@ import { NavLink } from "react-router-dom";
 export default function Navbar() {
  return (
    <div>
-     <nav className="navbar navbar-expand-lg navbar-light bg-light">
+     <nav className="navbar navbar-expand-md navbar-light bg-light">
        <NavLink className="navbar-brand" to="/">
         <img
             width = "56"
@@ -22,17 +22,18 @@ export default function Navbar() {
          className="navbar-toggler"
          type="button"
          data-bs-toggle="collapse"
-         data-bs-target="#navbarNavAltMarkup"
-         aria-controls="navbarNavAltMarkup"
-         aria-expanded="false"
-         aria-label="Toggle navigation" >
+         data-bs-target="#collapsibleNavbar">
          <span className="navbar-toggler-icon"></span>
        </button>
-       <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <div className="navbar-nav">
-          <a className="nav-item nav-link" href="#">Sökande</a>
-          <a className="nav-item nav-link active" href="#">Företag</a>
-       </div>
+       <div className="collapse navbar-collapse" id="collapsibleNavbar">
+        <ul className="navbar-nav">
+          <li className="nav-item">
+            <a className="nav-link" href="#">Sökande</a>
+          </li>
+          <li className="nav-item">
+            <a className="nav-link" href="#">Företag</a>
+          </li>
+       </ul>
        </div>
      </nav>
    </div>
