@@ -10,30 +10,41 @@ import { NavLink } from "react-router-dom";
 export default function Navbar() {
  return (
    <div>
-     <nav className="navbar navbar-expand-lg navbar-light bg-light">
+     <nav className="navbar navbar-expand-md navbar-light bg-light">
        <NavLink className="navbar-brand" to="/">
-       <img style={{"width" : 25 + '%'}} src="https://d3cy9zhslanhfa.cloudfront.net/media/3800C044-6298-4575-A05D5C6B7623EE37/4B45D0EC-3482-4759-82DA37D8EA07D229/webimage-8A27671A-8A53-45DC-89D7BF8537F15A0D.png"></img>
+        <img
+            width = "56"
+            src = {require("./D-logo-color-whiteBG.png")} >
+        </img>
+        Datateknologsektionen
        </NavLink>
        <button
          className="navbar-toggler"
          type="button"
-         data-toggle="collapse"
-         data-target="#navbarSupportedContent"
-         aria-controls="navbarSupportedContent"
-         aria-expanded="false"
-         aria-label="Toggle navigation"
-       >
+         data-bs-toggle="collapse"
+         data-bs-target="#collapsibleNavbar">
          <span className="navbar-toggler-icon"></span>
        </button>
- 
-       <div className="collapse navbar-collapse" id="navbarSupportedContent">
-         <ul className="navbar-nav ml-auto">
-           <li className="nav-item">
-             <NavLink className="nav-link" to="/create">
-               Create Record
-             </NavLink>
-           </li>
-         </ul>
+       <div className="collapse navbar-collapse" id="collapsibleNavbar">
+        <ul className="navbar-nav">
+          <li className="nav-item">
+            <a className="nav-link" href="#">Sökande</a>
+          </li>
+          <li className="nav-item">
+            <a className="nav-link" href="#">Företag</a>
+          </li>
+          <li className="nav-item">
+            <a className="nav-link" href="#">Om sektionen</a>
+          </li>
+          <li className="nav-item">
+            <a className="nav-link" href="#">Medlem</a>
+          </li>
+       </ul>
+       <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
+        <li className="nav-item">
+          <a className="nav-link" href="#">Logga in</a>
+        </li>
+       </ul>
        </div>
      </nav>
    </div>
