@@ -33,6 +33,17 @@ export default function Navbar() {
           <li className="nav-item">
             <a className="nav-link" href="#">Företag</a>
           </li>
+          <li className="nav-item">
+            <a className="nav-link" href="#">Om sektionen</a>
+          </li>
+          <li className="nav-item">
+            <a className="nav-link" href="#">Medlem</a>
+          </li>
+       </ul>
+       <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
+        <li className="nav-item">
+          <a className="nav-link" href="#">Logga in</a>
+        </li>
        </ul>
        </div>
      </nav>
