@@ -8,9 +8,6 @@ import Navbar from "./components/navbar";
 import RecordList from "./components/recordList";
 import Edit from "./components/edit";
 import Create from "./components/create";
-import LoginButton from "./components/loginButton";
-import LogoutButton from "./components/logoutButton";
-import Profile from "./components/profileInformation";
  
 const App = () => {
  return (
