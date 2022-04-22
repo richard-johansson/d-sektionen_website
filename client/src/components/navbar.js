@@ -5,9 +5,27 @@ import "bootstrap/dist/css/bootstrap.css";
  
 // We import NavLink to utilize the react router.
 import { NavLink } from "react-router-dom";
- 
+
+import LoginButton from "./loginButton";
+import { useAuth0 } from "@auth0/auth0-react";
+import LogoutButton from "./logoutButton";
+
 // Here, we display our Navbar
 export default function Navbar() {
+  // Logic to show either login or logout button
+  const { user, isAuthenticated } = useAuth0();
+  let button, greeting;
+  if (isAuthenticated)
+  {
+    button = <LogoutButton />;
+    greeting = "Välkommen " + user?.name + "!";
+  }
+  else
+  {
+    button = <LoginButton/>;
+    greeting = "";
+  }
+
  return (
    <div>
      <nav className="navbar navbar-expand-md navbar-light bg-light">
@@ -25,27 +43,44 @@ export default function Navbar() {
          data-bs-target="#collapsibleNavbar">
          <span className="navbar-toggler-icon"></span>
        </button>
-       <div className="collapse navbar-collapse" id="collapsibleNavbar">
-        <ul className="navbar-nav">
-          <li className="nav-item">
-            <a className="nav-link" href="#">Sökande</a>
-          </li>
-          <li className="nav-item">
-            <a className="nav-link" href="#">Företag</a>
-          </li>
-          <li className="nav-item">
-            <a className="nav-link" href="#">Om sektionen</a>
-          </li>
-          <li className="nav-item">
-            <a className="nav-link" href="#">Medlem</a>
-          </li>
-       </ul>
-       <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
+        <div className="collapse navbar-collapse" id="collapsibleNavbar">
+          <ul className="navbar-nav">
+            <li className="nav-item">
+              <a className="nav-link" href="#">Sökande</a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" href="#">Företag</a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" href="#">Sektionen</a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" href="#">Medlem</a>
+            </li>
+          </ul>
+        </div>
+        <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+          <ul class="navbar-nav ms-auto">
+            <div class="container pe-4">
+              <div className="row">
+                {greeting}
+              </div>
+              <div className="row">
+                {button}
+               </div>
+            </div>
+          </ul>
+        </div>
+        {/* <span className="navbar-nav">
         <li className="nav-item">
-          <a className="nav-link" href="#">Logga in</a>
+          <div className="row">
+            {greeting}
+          </div>
+          <div className="row">
+            {button}
+          </div>
         </li>
-       </ul>
-       </div>
+        </span> */}
      </nav>
    </div>
  );
