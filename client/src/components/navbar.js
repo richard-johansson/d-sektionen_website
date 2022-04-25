@@ -4,7 +4,7 @@ import React from "react";
 import "bootstrap/dist/css/bootstrap.css";
  
 // We import NavLink to utilize the react router.
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 
 import LoginButton from "./loginButton";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -55,7 +55,7 @@ export default function Navbar() {
               <a className="nav-link" href="#">Sektionen</a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#">Medlem</a>
+              <Link className="nav-link" to="/medlem">Medlem</Link>
             </li>
           </ul>
         </div>
