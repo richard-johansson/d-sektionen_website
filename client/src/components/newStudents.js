@@ -62,6 +62,22 @@ export default function NewStudents() {
                 </ul>
                 <h3>Detta läser du</h3>
                 <img src={require("./content-IT.png")} className="img-fluid" alt="Detta läser du"></img>
+
+                <h2 className="mt-5">Civilingenjörsprogrammet i mjukvaruteknik (U)</h2>
+                <a>Den här utbildning startades år 2013. Utbildningen har tagits fram i samarbete med både studenter 
+                    och näringsliv. Det innebär att utbildningen verkligen ligger i tiden och ger studenterna den 
+                    kompetens IT-företagen vill ha.</a>
+                <h4>Läs mer</h4>
+                <ul>
+                    <li>
+                        <a href="https://liu.se/utbildning/program/6cmju">LiU:s hemsida om mjukvaruteknikprogrammet</a>
+                    </li>
+                    <li>
+                        <a href="https://liu.se/artikel/masterprofiler-for-mjukvaruteknik">Masterprofiler för mjukvaruteknik</a>
+                    </li>
+                </ul>
+                <h3>Detta läser du</h3>
+                <img src={require("./content-U.png")} className="img-fluid" alt="Detta läser du"></img>
             </div>
         </div>
     );
