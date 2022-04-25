@@ -4,7 +4,7 @@ import React from "react";
 import "bootstrap/dist/css/bootstrap.css";
  
 // We import NavLink to utilize the react router.
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
  
 // Here, we display our Navbar
 export default function Navbar() {
@@ -37,7 +37,7 @@ export default function Navbar() {
             <a className="nav-link" href="#">Om sektionen</a>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="#">Medlem</a>
+            <Link className="nav-link" to="/medlem">Medlem</Link>
           </li>
        </ul>
        <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
