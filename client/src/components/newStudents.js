@@ -46,6 +46,22 @@ export default function NewStudents() {
                 </ul>
                 <h3>Detta läser du</h3>
                 <img src={require("./content-D.png")} className="img-fluid" alt="Detta läser du"></img>
+                
+                <h2 className="mt-5">Civilingenjörsprogrammet i informationsteknologi (IT)</h2>
+                <a>Denna utbildning har ett stort fokus på att arbeta i grupp och utmanar studenterna genom sin speciella 
+                    problemlösningsmetodik. Denna syftar till att öka studenternas förmåga att lösa problem och att ge dem en bättre 
+                    förutsättning för att kunna arbeta i projektgrupper på deras framtida arbetsplatser.</a>
+                <h4>Läs mer</h4>
+                <ul>
+                    <li>
+                        <a href="https://liu.se/utbildning/program/6cite">LiU:s hemsida om informationsteknologiprogrammet</a>
+                    </li>
+                    <li>
+                        <a href="https://liu.se/artikel/masterprofiler-for-informationsteknologi">Masterprofiler för IT</a>
+                    </li>
+                </ul>
+                <h3>Detta läser du</h3>
+                <img src={require("./content-IT.png")} className="img-fluid" alt="Detta läser du"></img>
             </div>
         </div>
     );
