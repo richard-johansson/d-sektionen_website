@@ -95,6 +95,18 @@ export default function NewStudents() {
                 </ul>
                 <h3>Detta läser du</h3>
                 <img src={require("./content-IP.png")} className="img-fluid" alt="Detta läser du"></img>
+
+                <h2 className="mt-5">Masterprogrammet i Computer Science (CS)</h2>
+                <a>Detta är ett masterprogram för den som har en kandidatexamen inom programmering. Här får man den kunskap 
+                    och kompetens som krävs för en karriär i mjukvaruteknikens framkant, till exempel med operativsystemdesign, 
+                    som internetsäkerhetsspecialist eller spelprogrammerare. Programmet förbereder också för forskning och 
+                    fortsatta studier till en doktorsexamen.</a>
+                <h4>Läs mer</h4>
+                <ul>
+                    <li>
+                        <a href="https://liu.se/utbildning/program/6mics">LiU:s hemsida om innovativ programmering</a>
+                    </li>
+                </ul>
             </div>
         </div>
     );
