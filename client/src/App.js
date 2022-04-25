@@ -8,6 +8,7 @@ import Navbar from "./components/navbar";
 import HomePage from "./components/homePage";
 import Member from "./components/member";
 import NewStudents from "./components/newStudents";
+import Logging from "./components/logging";
  
 const App = () => {
  return (
@@ -17,9 +18,10 @@ const App = () => {
        <Route exact path="/" element={<HomePage />} />
        <Route path="/sokande" element={<NewStudents />} />
        <Route path="/medlem" element={<Member />} />
+       <Route path="/medlem/logg" element={<Logging />} />
      </Routes>
    </div>
  );
 };
- 
+
 export default App;
