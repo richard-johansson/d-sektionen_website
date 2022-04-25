@@ -31,6 +31,21 @@ export default function NewStudents() {
                             <a>Masterprogrammet i Computer Science</a>
                         </li>
                     </ul> 
+                <h2 className="mt-5">Civilingenjörsprogrammet i datateknik (D)</h2>
+                <a>Detta program startades 1975 och är därmed den äldsta civilingenjörsutbildningen inom data. Därför har det 
+                    erhållit stort förtroende hos arbetsmarknaden. Programmet vill dock inte leva på gamla meriter, utan strävar 
+                    hela tiden efter att anpassa och utveckla sig med omvärlden.</a>
+                <h4>Läs mer</h4>
+                <ul>
+                    <li>
+                        <a href="https://liu.se/utbildning/program/6cddd">LiU:s hemsida om datateknikprogrammet</a>
+                    </li>
+                    <li>
+                        <a href="https://liu.se/artikel/masterprofiler-for-datateknik">Masterprofiler för datateknik</a>
+                    </li>
+                </ul>
+                <h3>Detta läser du</h3>
+                <img src={require("./content-D.png")} className="img-fluid" alt="Detta läser du"></img>
             </div>
         </div>
     );
