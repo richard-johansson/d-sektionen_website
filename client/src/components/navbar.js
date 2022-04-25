@@ -46,7 +46,7 @@ export default function Navbar() {
         <div className="collapse navbar-collapse" id="collapsibleNavbar">
           <ul className="navbar-nav">
             <li className="nav-item">
-              <a className="nav-link" href="#">Sökande</a>
+              <Link className="nav-link" to="/sokande">Sökande</Link>
             </li>
             <li className="nav-item">
               <a className="nav-link" href="#">Företag</a>
