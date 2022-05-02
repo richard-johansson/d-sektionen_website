@@ -1,13 +1,11 @@
 import "bootstrap/dist/css/bootstrap.css";
 import App from "./App";
 import React from "react";
-import { createRoot } from 'react-dom/client';
+import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
 import { Auth0Provider } from "@auth0/auth0-react";
-const container = document.getElementById('root');
 
-const root = createRoot(container);
-root.render(
+ReactDOM.render(
   <BrowserRouter>
     <React.StrictMode>
       <Auth0Provider
@@ -18,5 +16,6 @@ root.render(
         <App />
       </Auth0Provider>
     </React.StrictMode>
-  </BrowserRouter>
+  </BrowserRouter>,
+  document.getElementById("root")
 );
