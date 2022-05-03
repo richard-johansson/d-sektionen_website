@@ -6,32 +6,69 @@ import {
   DayView,
   WeekView,
   MonthView,
+  DateNavigator,
   Appointments,
   Toolbar,
   ViewSwitcher,
+  TodayButton,
+  AppointmentTooltip,
+  AppointmentForm,
 } from '@devexpress/dx-react-scheduler-material-ui';
 
-const currentDate = '2018-11-01';
 const schedulerData = [
-  { startDate: '2018-11-01T09:45', endDate: '2018-11-01T11:00', title: 'Meeting' },
-  { startDate: '2018-11-01T12:00', endDate: '2018-11-01T13:30', title: 'Go to a gym' },
-];
+    { startDate: '2022-05-03T09:45', endDate: '2022-05-03T11:00', title: 'Meeting' },
+    { startDate: '2022-05-02T12:00', endDate: '2022-05-02T13:30', title: 'Go to a gym' },
+  ];
 
-export default function Schedule() {
+export default class Demo extends React.PureComponent {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      data: schedulerData,
+    };
+  }
+
+  render() {
+    const { data } = this.state;
+
     return (
-        <Paper>
-            <Scheduler
-                data={schedulerData}
-            >
-                <ViewState
-                    currentDate={currentDate}
-                />
-                <WeekView
-                    startDayHour={9}
-                    endDayHour={14}
-                />
-                <Appointments />
-            </Scheduler>
-        </Paper>
+      <Paper>
+        <Scheduler
+          data={data}
+          height={660}
+        >
+          <ViewState
+            defaultCurrentViewName="Week"
+          />
+
+          <DayView
+            startDayHour={9}
+            endDayHour={18}
+          />
+          <WeekView
+            startDayHour={10}
+            endDayHour={19}
+          />
+          <MonthView
+            startDayHour={10}
+            endDayHour={19}
+          />
+
+          <Toolbar />
+          <DateNavigator />
+          <ViewSwitcher />
+          <TodayButton />
+          <Appointments />
+          <AppointmentTooltip
+            showCloseButton
+            showOpenButton
+          />
+          <AppointmentForm
+            readOnly
+          />
+        </Scheduler>
+      </Paper>
     );
+  }
 }
