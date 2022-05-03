@@ -9,6 +9,7 @@ import HomePage from "./components/homePage";
 import Member from "./components/member";
 import NewStudents from "./components/newStudents";
 import Logging from "./components/logging";
+import BookCar from "./components/bookCar";
  
 const App = () => {
  return (
@@ -19,6 +20,7 @@ const App = () => {
        <Route path="/sokande" element={<NewStudents />} />
        <Route path="/medlem" element={<Member />} />
        <Route path="/medlem/logg" element={<Logging />} />
+       <Route path="/medlem/boka" element={<BookCar />} />
      </Routes>
    </div>
  );

@@ -4,7 +4,11 @@ import { ViewState } from '@devexpress/dx-react-scheduler';
 import {
   Scheduler,
   DayView,
+  WeekView,
+  MonthView,
   Appointments,
+  Toolbar,
+  ViewSwitcher,
 } from '@devexpress/dx-react-scheduler-material-ui';
 
 const currentDate = '2018-11-01';
@@ -22,7 +26,7 @@ export default function Schedule() {
                 <ViewState
                     currentDate={currentDate}
                 />
-                <DayView
+                <WeekView
                     startDayHour={9}
                     endDayHour={14}
                 />
