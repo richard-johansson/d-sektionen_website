@@ -11,6 +11,9 @@ export default function Member() {
             <Link to="/medlem/boka">
                 <button type="button" class="btn btn-secondary">Boka bil</button>
             </Link>
+            <Link to="/medlem/logg">
+                <button type="button" class="btn btn-secondary">Logga bil</button>
+            </Link>
         </div>
     );
    }
