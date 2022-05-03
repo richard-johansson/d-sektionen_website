@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Paper from '@mui/material/Paper';
-import { ViewState } from '@devexpress/dx-react-scheduler';
+import { ViewState, EditingState, IntegratedEditing } from '@devexpress/dx-react-scheduler';
 import {
   Scheduler,
   DayView,
@@ -13,6 +13,8 @@ import {
   TodayButton,
   AppointmentTooltip,
   AppointmentForm,
+  ConfirmationDialog,
+  DragDropProvider,
 } from '@devexpress/dx-react-scheduler-material-ui';
 
 const schedulerData = [
@@ -27,6 +29,25 @@ export default class Demo extends React.PureComponent {
     this.state = {
       data: schedulerData,
     };
+    this.commitChanges = this.commitChanges.bind(this);
+  }
+
+  commitChanges({ added, changed, deleted }) {
+    this.setState((state) => {
+      let { data } = state;
+      if (added) {
+        const startingAddedId = data.length > 0 ? data[data.length - 1].id + 1 : 0;
+        data = [...data, { id: startingAddedId, ...added }];
+      }
+      if (changed) {
+        data = data.map(appointment => (
+          changed[appointment.id] ? { ...appointment, ...changed[appointment.id] } : appointment));
+      }
+      if (deleted !== undefined) {
+        data = data.filter(appointment => appointment.id !== deleted);
+      }
+      return { data };
+    });
   }
 
   render() {
@@ -36,11 +57,16 @@ export default class Demo extends React.PureComponent {
       <Paper>
         <Scheduler
           data={data}
-          height={660}
+          height={600}
         >
           <ViewState
             defaultCurrentViewName="Week"
           />
+
+          <EditingState
+            onCommitChanges={this.commitChanges}
+          />
+          <IntegratedEditing />
 
           <DayView
             startDayHour={9}
@@ -55,17 +81,18 @@ export default class Demo extends React.PureComponent {
             endDayHour={19}
           />
 
+          <ConfirmationDialog />
           <Toolbar />
           <DateNavigator />
           <ViewSwitcher />
           <TodayButton />
           <Appointments />
+          <DragDropProvider />
           <AppointmentTooltip
             showCloseButton
             showOpenButton
           />
           <AppointmentForm
-            readOnly
           />
         </Scheduler>
       </Paper>
