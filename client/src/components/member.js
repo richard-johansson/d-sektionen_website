@@ -7,6 +7,7 @@ export default function Member() {
     return (
         <div>
             <a>Välkommen till medlemssidan!</a>
+            <button type="button" class="btn btn-secondary">Boka bil</button>
         </div>
     );
    }
