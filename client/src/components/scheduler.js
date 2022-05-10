@@ -1,6 +1,7 @@
 import * as React from 'react';
+import { useParams, useNavigate } from "react-router";
 import Paper from '@mui/material/Paper';
-import { ViewState, EditingState, IntegratedEditing } from '@devexpress/dx-react-scheduler';
+import { ViewState, EditingState, IntegratedEditing} from '@devexpress/dx-react-scheduler';
 import {
   Scheduler,
   DayView,
@@ -18,9 +19,47 @@ import {
 } from '@devexpress/dx-react-scheduler-material-ui';
 
 const schedulerData = [
-    { startDate: '2022-05-03T09:45', endDate: '2022-05-03T11:00', title: 'Meeting' },
-    { startDate: '2022-05-02T12:00', endDate: '2022-05-02T13:30', title: 'Go to a gym' },
   ];
+
+// Remove reoccurence and all day
+const BooleanEditor = props => {
+  return <AppointmentForm.BooleanEditor {...props} readOnly />;
+};
+
+// Swedish time
+const sweTime = date => new Date(date).toLocaleString('sv_SE', { 
+  timeZone: 'Europe/Stockholm' });
+
+// Appointment
+const mapAppointmentData = appointment => ({
+  id: appointment.id,
+  startDate: sweTime(appointment.start.dateTime),
+  endDate: sweTime(appointment.end.dateTime),
+  title: appointment.summary,
+});
+
+// Inital state
+const initialState = {
+  data: [],
+  loading: false,
+  currentViewName: 'Week',
+};
+
+// Reducer
+const reducer = (state, action) => {
+  switch (action.type) {
+    case 'setLoading':
+      return { ...state, loading: action.payload };
+    case 'setData':
+      return { ...state, data: action.payload.map(mapAppointmentData) };
+    case 'setCurrentViewName':
+      return { ...state, currentViewName: action.payload };
+    case 'setCurrentDate':
+      return { ...state, currentDate: action.payload };
+    default:
+      return state;
+  }
+};
 
 export default class Demo extends React.PureComponent {
   constructor(props) {
@@ -33,17 +72,30 @@ export default class Demo extends React.PureComponent {
   }
 
   commitChanges({ added, changed, deleted }) {
-    this.setState((state) => {
+    this.setState(async function(state) {
       let { data } = state;
-      if (added) {
+      if (added) 
+      {
         const startingAddedId = data.length > 0 ? data[data.length - 1].id + 1 : 0;
         data = [...data, { id: startingAddedId, ...added }];
+        console.log(data);
+        
+        // This will send a post request to update the data in the database.
+        await fetch("http://localhost:5001/medlem/boka/ny_bokning", {
+          method: "POST",
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        });
       }
-      if (changed) {
+      if (changed)
+      {
         data = data.map(appointment => (
           changed[appointment.id] ? { ...appointment, ...changed[appointment.id] } : appointment));
       }
-      if (deleted !== undefined) {
+      if (deleted !== undefined)
+      {
         data = data.filter(appointment => appointment.id !== deleted);
       }
       return { data };
@@ -91,8 +143,10 @@ export default class Demo extends React.PureComponent {
           <AppointmentTooltip
             showCloseButton
             showOpenButton
+            showDeleteButton
           />
           <AppointmentForm
+            booleanEditorComponent={BooleanEditor}
           />
         </Scheduler>
       </Paper>
