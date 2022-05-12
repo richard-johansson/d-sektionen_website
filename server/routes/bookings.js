@@ -34,7 +34,7 @@ const ObjectId = require("mongodb").ObjectId;
             Paid            boolean
 */
 
-// This section will help you create a new record.
+// This section will help you create a new booking.
 bookingsRoutes.route("/medlem/boka/ny_bokning").post(function (req, response) 
 {
     console.log("/medlem/boka/ny_bokning");
@@ -48,6 +48,18 @@ bookingsRoutes.route("/medlem/boka/ny_bokning").post(function (req, response)
         if (err) throw err;
         response.json(res);
     });
+});
+
+// This section will help you get a list of all the bookings.
+bookingsRoutes.route("/medlem/boka/hamta_alla").get(function (req, res) {
+    let db_connect = dbo.getDb("database");
+    db_connect
+        .collection("bookings")
+        .find({})
+        .toArray(function (err, result) {
+            if (err) throw err;
+            res.json(result);
+        });
 });
 
 module.exports = bookingsRoutes;
