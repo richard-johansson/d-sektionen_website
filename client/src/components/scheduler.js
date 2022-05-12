@@ -1,51 +1,89 @@
 import * as React from 'react';
-import { useParams, useNavigate } from "react-router";
+import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
-import { ViewState, EditingState, IntegratedEditing} from '@devexpress/dx-react-scheduler';
+import LinearProgress from '@mui/material/LinearProgress';
+import {
+  ViewState,
+} from '@devexpress/dx-react-scheduler';
 import {
   Scheduler,
-  DayView,
   WeekView,
-  MonthView,
-  DateNavigator,
+  DayView,
   Appointments,
   Toolbar,
+  DateNavigator,
   ViewSwitcher,
-  TodayButton,
-  AppointmentTooltip,
   AppointmentForm,
-  ConfirmationDialog,
-  DragDropProvider,
+  AppointmentTooltip,
+  TodayButton,
 } from '@devexpress/dx-react-scheduler-material-ui';
 
-const schedulerData = [
-  ];
+const PREFIX = 'Demo';
 
-// Remove reoccurence and all day
-const BooleanEditor = props => {
-  return <AppointmentForm.BooleanEditor {...props} readOnly />;
+const classes = {
+  toolbarRoot: `${PREFIX}-toolbarRoot`,
+  progress: `${PREFIX}-progress`,
 };
 
-// Swedish time
-const sweTime = date => new Date(date).toLocaleString('sv_SE', { 
-  timeZone: 'Europe/Stockholm' });
+const StyledDiv = styled('div')({
+  [`&.${classes.toolbarRoot}`]: {
+    position: 'relative',
+  },
+});
 
-// Appointment
+const StyledLinearProgress = styled(LinearProgress)(() => ({
+  [`&.${classes.progress}`]: {
+    position: 'absolute',
+    width: '100%',
+    bottom: 0,
+    left: 0,
+  },
+}));
+
+const PUBLIC_KEY = 'AIzaSyBnNAISIUKe6xdhq1_rjor2rxoI3UlMY7k';
+const CALENDAR_ID = 'f7jnetm22dsjc3npc2lu3buvu4@group.calendar.google.com';
+
+const getData = (setData, setLoading) => {
+  const dataUrl = ['https://www.googleapis.com/calendar/v3/calendars/', CALENDAR_ID, '/events?key=', PUBLIC_KEY].join('');
+  setLoading(true);
+
+  return fetch(dataUrl)
+    .then(response => response.json())
+    .then((data) => {
+      setTimeout(() => {
+        setData(data.items);
+        setLoading(false);
+      }, 600);
+    });
+};
+
+const ToolbarWithLoading = (
+  ({ children, ...restProps }) => (
+    <StyledDiv className={classes.toolbarRoot}>
+      <Toolbar.Root {...restProps}>
+        {children}
+      </Toolbar.Root>
+      <StyledLinearProgress className={classes.progress} />
+    </StyledDiv>
+  )
+);
+
+const usaTime = date => new Date(date).toLocaleString('en-US', { timeZone: 'America/Los_Angeles' });
+
 const mapAppointmentData = appointment => ({
   id: appointment.id,
-  startDate: sweTime(appointment.start.dateTime),
-  endDate: sweTime(appointment.end.dateTime),
+  startDate: usaTime(appointment.start.dateTime),
+  endDate: usaTime(appointment.end.dateTime),
   title: appointment.summary,
 });
 
-// Inital state
 const initialState = {
   data: [],
   loading: false,
-  currentViewName: 'Week',
+  currentDate: '2017-05-23',
+  currentViewName: 'Day',
 };
 
-// Reducer
 const reducer = (state, action) => {
   switch (action.type) {
     case 'setLoading':
@@ -61,95 +99,61 @@ const reducer = (state, action) => {
   }
 };
 
-export default class Demo extends React.PureComponent {
-  constructor(props) {
-    super(props);
+export default () => {
+  const [state, dispatch] = React.useReducer(reducer, initialState);
+  const {
+    data, loading, currentViewName, currentDate,
+  } = state;
+  const setCurrentViewName = React.useCallback(nextViewName => dispatch({
+    type: 'setCurrentViewName', payload: nextViewName,
+  }), [dispatch]);
+  const setData = React.useCallback(nextData => dispatch({
+    type: 'setData', payload: nextData,
+  }), [dispatch]);
+  const setCurrentDate = React.useCallback(nextDate => dispatch({
+    type: 'setCurrentDate', payload: nextDate,
+  }), [dispatch]);
+  const setLoading = React.useCallback(nextLoading => dispatch({
+    type: 'setLoading', payload: nextLoading,
+  }), [dispatch]);
 
-    this.state = {
-      data: schedulerData,
-    };
-    this.commitChanges = this.commitChanges.bind(this);
-  }
+  React.useEffect(() => {
+    getData(setData, setLoading);
+  }, [setData, currentViewName, currentDate]);
 
-  commitChanges({ added, changed, deleted }) {
-    this.setState(async function(state) {
-      let { data } = state;
-      if (added) 
-      {
-        const startingAddedId = data.length > 0 ? data[data.length - 1].id + 1 : 0;
-        data = [...data, { id: startingAddedId, ...added }];
-        console.log(data);
-        
-        // This will send a post request to update the data in the database.
-        await fetch("http://localhost:5001/medlem/boka/ny_bokning", {
-          method: "POST",
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(data)
-        });
-      }
-      if (changed)
-      {
-        data = data.map(appointment => (
-          changed[appointment.id] ? { ...appointment, ...changed[appointment.id] } : appointment));
-      }
-      if (deleted !== undefined)
-      {
-        data = data.filter(appointment => appointment.id !== deleted);
-      }
-      return { data };
-    });
-  }
-
-  render() {
-    const { data } = this.state;
-
-    return (
-      <Paper>
-        <Scheduler
-          data={data}
-          height={600}
-        >
-          <ViewState
-            defaultCurrentViewName="Week"
-          />
-
-          <EditingState
-            onCommitChanges={this.commitChanges}
-          />
-          <IntegratedEditing />
-
-          <DayView
-            startDayHour={0}
-            endDayHour={24}
-          />
-          <WeekView
-            startDayHour={0}
-            endDayHour={24}
-          />
-          <MonthView
-            startDayHour={0}
-            endDayHour={24}
-          />
-
-          <ConfirmationDialog />
-          <Toolbar />
-          <DateNavigator />
-          <ViewSwitcher />
-          <TodayButton />
-          <Appointments />
-          <DragDropProvider />
-          <AppointmentTooltip
-            showCloseButton
-            showOpenButton
-            showDeleteButton
-          />
-          <AppointmentForm
-            booleanEditorComponent={BooleanEditor}
-          />
-        </Scheduler>
-      </Paper>
-    );
-  }
-}
+  return (
+    <Paper>
+      <Scheduler
+        data={data}
+        height={660}
+      >
+        <ViewState
+          currentDate={currentDate}
+          currentViewName={currentViewName}
+          onCurrentViewNameChange={setCurrentViewName}
+          onCurrentDateChange={setCurrentDate}
+        />
+        <DayView
+          startDayHour={7.5}
+          endDayHour={17.5}
+        />
+        <WeekView
+          startDayHour={7.5}
+          endDayHour={17.5}
+        />
+        <Appointments />
+        <Toolbar
+          {...loading ? { rootComponent: ToolbarWithLoading } : null}
+        />
+        <DateNavigator />
+        <TodayButton />
+        <ViewSwitcher />
+        <AppointmentTooltip
+          showOpenButton
+          showCloseButton
+        />
+        <AppointmentForm readOnly />
+      </Scheduler>
+    </Paper>
+  );
+};
