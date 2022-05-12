@@ -48,7 +48,11 @@ const getData = (setData, setLoading) => {
   const dataUrl = "/medlem/boka/hamta_alla";
   setLoading(true);
 
-  const schedule = fetch(dataUrl)
+  const schedule = fetch(dataUrl, {headers : { 
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+      }
+    })
     .then(response => response.json())
     .then((data) => {
       setTimeout(() => {
