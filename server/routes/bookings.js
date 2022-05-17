@@ -59,8 +59,11 @@ bookingsRoutes.route("/medlem/boka/hamta_alla").get(function (req, res) {
         .collection("bookings")
         .find({})
         .toArray(function (err, result) {
-            if (err) throw err;
-            res.json(result);
+            if (err) {
+                res.send(err);
+            } else {
+                res.send(JSON.stringify(result));
+            }
         });
 });
 
