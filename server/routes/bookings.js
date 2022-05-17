@@ -38,11 +38,13 @@ const ObjectId = require("mongodb").ObjectId;
 bookingsRoutes.route("/medlem/boka/ny_bokning").post(function (req, response) 
 {
     console.log("/medlem/boka/ny_bokning");
-    console.log("id: ", req.params.id);
+    console.log("id: ", req.body.id);
     let db_connect = dbo.getDb();
-    let booking = {
-        data: req.body.data
-    };
+    // let booking = {
+    //     data: req.body.data
+    // };
+    let booking = req.body;
+    console.log("Booking: ", booking);
     db_connect.collection("bookings").insertOne(booking, function (err, res) 
     {
         if (err) throw err;
