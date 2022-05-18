@@ -78,12 +78,13 @@ const ToolbarWithLoading = (
   )
 );
 
-const usaTime = date => new Date(date).toLocaleString('en-US', { timeZone: 'America/Los_Angeles' });
+// const usaTime = date => new Date(date).toLocaleString('en-US', { timeZone: 'America/Los_Angeles' });
+const sweTime = date => new Date(date).toLocaleString('sv-SE', { timeZone: 'Europe/Stockholm' });
 
 const mapAppointmentData = appointment => ({
   id: appointment.id,
-  startDate: usaTime(appointment.start.dateTime),
-  endDate: usaTime(appointment.end.dateTime),
+  startDate: sweTime(appointment.start.dateTime),
+  endDate: sweTime(appointment.end.dateTime),
   title: appointment.summary,
 });
 
@@ -91,7 +92,7 @@ const initialState = {
   data: [],
   loading: false,
   currentDate: '2017-05-23',
-  currentViewName: 'Day',
+  currentViewName: 'Week',
 };
 
 const reducer = (state, action) => {
