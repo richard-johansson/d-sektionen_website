@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import Paper from '@mui/material/Paper';
 import { ViewState, EditingState, IntegratedEditing } from '@devexpress/dx-react-scheduler';
 import {
@@ -45,7 +45,7 @@ export default class Bookings extends React.PureComponent {
     };
 
     async postData(booking) {
-      const schedule = await fetch("http://localhost:5001/medlem/boka/ny_bokning", {
+      return fetch("http://localhost:5001/medlem/boka/ny_bokning", {
         method : "post",
         headers : {
           'Content-Type': 'application/json',
@@ -54,30 +54,35 @@ export default class Bookings extends React.PureComponent {
         body : JSON.stringify(booking)
       })
       .then(response => {
-        console.log(response.status);
+        console.log(response);
       })
     };
   
-    commitChanges({ added, changed, deleted }) {
-      this.setState((state) => {
-        let { data } = state;
-        if (added) {
-          const startingAddedId = data.length > 0 ? data[data.length - 1].id + 1 : 0;
-          data = [...data, { id: startingAddedId, ...added }];
-          this.postData(added);
-          console.log(added);
-        }
-        if (changed) {
-          data = data.map(appointment => (
-            changed[appointment.id] ? { ...appointment, ...changed[appointment.id] } : appointment));
-        }
-        if (deleted !== undefined) {
-          data = data.filter(appointment => appointment.id !== deleted);
-        }
-        // this.postData(data);
-        return { data };
-      });
-    }
+    async commitChanges({ added, changed, deleted }) {
+      if (added) {
+        await this.postData(added)
+        this.getData()
+      }
+      // this.setState((state) => {
+      //   let { data } = state;
+      //   if (added) {
+      //     const startingAddedId = data.length > 0 ? data[data.length - 1].id + 1 : 0;
+      //     data = [...data, { id: startingAddedId, ...added }];
+      //     this.postData(added).then(() => {console.info("hejhej")})
+      //     console.log("added", added);
+      //   }
+      //   if (changed) {
+      //     data = data.map(appointment => (
+      //       changed[appointment.id] ? { ...appointment, ...changed[appointment.id] } : appointment));
+      //   }
+      //   if (deleted !== undefined) {
+      //     data = data.filter(appointment => appointment.id !== deleted);
+      //   }
+      //   // Fetches all data from the database
+      //   // this.getData();
+      //   return { data };
+      // });
+    };
   
     render() {
       const { data } = this.state;
