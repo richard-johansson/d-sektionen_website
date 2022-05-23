@@ -37,7 +37,8 @@ export default class Bookings extends React.PureComponent {
         return response.json();
       })
       .then((data) => {
-        console.log("data state is set here: ", data);
+        console.log("getData()", data);
+        data = data.map(app => ({id: app._id, ...app}))
         this.setState({
           data: data
         });
@@ -45,7 +46,7 @@ export default class Bookings extends React.PureComponent {
     };
 
     async postData(booking) {
-      return fetch("http://localhost:5001/medlem/boka/ny_bokning", {
+      return fetch(`http://localhost:5001/medlem/boka/ny_bokning`, {
         method : "post",
         headers : {
           'Content-Type': 'application/json',
@@ -57,12 +58,36 @@ export default class Bookings extends React.PureComponent {
         console.log(response);
       })
     };
+
+    async changeData(changedBooking) {
+      const id = Object.keys(changedBooking)[0];
+      return fetch(`http://localhost:5001/medlem/boka/uppdatera_bokning/${id}`, {
+        method : "post",
+        headers : {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(changedBooking)
+      })
+      .then(response => {
+        console.log(response);
+      })
+    };
   
-    async commitChanges({ added, changed, deleted }) {
+    async commitChanges(arg) {
+      const { added, changed, deleted } = arg
+
+      // arg = { added: ..., changed: ..., deleted: ...}
       if (added) {
         await this.postData(added)
         this.getData()
       }
+      if (changed) {
+        console.log(changed)
+        this.changeData(changed)
+        
+      }
+
       // this.setState((state) => {
       //   let { data } = state;
       //   if (added) {
