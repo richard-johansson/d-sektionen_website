@@ -38,10 +38,9 @@ const ObjectId = require("mongodb").ObjectId;
 bookingsRoutes.route("/medlem/boka/ny_bokning").post(function (req, response) 
 {
     console.log("/medlem/boka/ny_bokning");
-    console.log("id: ", req.body.id);
     let db_connect = dbo.getDb();
     // let booking = {
-    //     data: req.body.data
+    //     data: req.body
     // };
     let booking = req.body;
     console.log("Booking: ", booking);

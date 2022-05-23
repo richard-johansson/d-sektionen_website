@@ -43,6 +43,20 @@ export default class Bookings extends React.PureComponent {
         });
       });
     };
+
+    async postData(booking) {
+      const schedule = await fetch("http://localhost:5001/medlem/boka/ny_bokning", {
+        method : "post",
+        headers : {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body : JSON.stringify(booking)
+      })
+      .then(response => {
+        console.log(response.status);
+      })
+    };
   
     commitChanges({ added, changed, deleted }) {
       this.setState((state) => {
@@ -50,6 +64,8 @@ export default class Bookings extends React.PureComponent {
         if (added) {
           const startingAddedId = data.length > 0 ? data[data.length - 1].id + 1 : 0;
           data = [...data, { id: startingAddedId, ...added }];
+          this.postData(added);
+          console.log(added);
         }
         if (changed) {
           data = data.map(appointment => (
@@ -58,6 +74,7 @@ export default class Bookings extends React.PureComponent {
         if (deleted !== undefined) {
           data = data.filter(appointment => appointment.id !== deleted);
         }
+        // this.postData(data);
         return { data };
       });
     }
