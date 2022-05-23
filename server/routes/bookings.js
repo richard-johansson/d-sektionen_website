@@ -51,6 +51,23 @@ bookingsRoutes.route("/medlem/boka/ny_bokning").post(function (req, response)
     });
 });
 
+// This section will help you update a record by id.
+bookingsRoutes.route("/medlem/boka/uppdatera_bokning/:id").post(function (req, response) {
+    console.log("/medlem/boka/uppdatera_bokning");
+    console.log(req);
+
+    let db_connect = dbo.getDb();  
+    // let myquery = { _id: ObjectId( req.params.id )};  
+
+    // let newvalues = {
+    //     $set: {      
+    //     name: req.body.name,
+    //     position: req.body.position,
+    //     level: req.body.level,
+    //     },
+    // }
+});
+
 // This section will help you get a list of all the bookings.
 bookingsRoutes.route("/medlem/boka/hamta_alla").get(function (req, res) {
     let db_connect = dbo.getDb("database");
@@ -61,6 +78,7 @@ bookingsRoutes.route("/medlem/boka/hamta_alla").get(function (req, res) {
             if (err) {
                 res.send(err);
             } else {
+                // 
                 res.send(JSON.stringify(result));
             }
         });
