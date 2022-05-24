@@ -52,20 +52,19 @@ bookingsRoutes.route("/medlem/boka/ny_bokning").post(function (req, response)
 });
 
 // This section will help you update a record by id.
-bookingsRoutes.route("/medlem/boka/uppdatera_bokning/:id").post(function (req, response) {
-    console.log("/medlem/boka/uppdatera_bokning");
-    console.log(req);
+bookingsRoutes.route("/medlem/boka/uppdatera_bokning/:id").put(function (req, response) {
+    console.log("********* /medlem/boka/uppdatera_bokning ********");
+    console.log("req.body", req.body);
+    
+    let db_connect = dbo.getDb();
+    const _id = req.params.id;
+    let query = { _id: ObjectId( _id )};  
+    let newvalues = {$set : req.body[_id]}
 
-    let db_connect = dbo.getDb();  
-    // let myquery = { _id: ObjectId( req.params.id )};  
-
-    // let newvalues = {
-    //     $set: {      
-    //     name: req.body.name,
-    //     position: req.body.position,
-    //     level: req.body.level,
-    //     },
-    // }
+    db_connect.collection("bookings").updateOne(
+        query, 
+        newvalues
+    )
 });
 
 // This section will help you get a list of all the bookings.

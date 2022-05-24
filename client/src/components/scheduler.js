@@ -62,7 +62,7 @@ export default class Bookings extends React.PureComponent {
     async changeData(changedBooking) {
       const id = Object.keys(changedBooking)[0];
       return fetch(`http://localhost:5001/medlem/boka/uppdatera_bokning/${id}`, {
-        method : "post",
+        method : "put",
         headers : {
           'Content-Type': 'application/json',
           'Accept': 'application/json'
