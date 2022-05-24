@@ -8,6 +8,8 @@ import {
   MonthView,
   Toolbar,
   ViewSwitcher,
+  DateNavigator,
+  TodayButton,
   Appointments,
   AppointmentForm,
   AppointmentTooltip,
@@ -135,6 +137,8 @@ export default class Bookings extends React.PureComponent {
             />
             <Toolbar/>
             <ViewSwitcher/>
+            <DateNavigator/>
+            <TodayButton/>
             <Appointments />
             <DragDropProvider />
             <AppointmentTooltip
