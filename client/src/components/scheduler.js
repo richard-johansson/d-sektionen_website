@@ -5,6 +5,9 @@ import {
   Scheduler,
   DayView,
   WeekView,
+  MonthView,
+  Toolbar,
+  ViewSwitcher,
   Appointments,
   AppointmentForm,
   AppointmentTooltip,
@@ -108,17 +111,30 @@ export default class Bookings extends React.PureComponent {
           <Scheduler
             data={data}
             height={660}
+            locale={'sv-SE'}
           >
-            <ViewState/>   
+            <ViewState
+              defaultCurrentViewName="Week"
+            />
             <EditingState
               onCommitChanges={this.commitChanges}
             />
             <IntegratedEditing />
             <ConfirmationDialog />
+            <DayView
+              startDayHour={7.5}
+              endDayHour={17.5}
+            />
             <WeekView
               startDayHour={7.5}
               endDayHour={17.5}
             />
+            <MonthView
+              startDayHour={7.5}
+              endDayHour={17.5}
+            />
+            <Toolbar/>
+            <ViewSwitcher/>
             <Appointments />
             <DragDropProvider />
             <AppointmentTooltip
