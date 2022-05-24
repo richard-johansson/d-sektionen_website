@@ -46,7 +46,7 @@ export default class Bookings extends React.PureComponent {
     };
 
     async postData(booking) {
-      return fetch(`http://localhost:5001/medlem/boka/ny_bokning`, {
+      fetch(`http://localhost:5001/medlem/boka/ny_bokning`, {
         method : "post",
         headers : {
           'Content-Type': 'application/json',
@@ -55,13 +55,13 @@ export default class Bookings extends React.PureComponent {
         body : JSON.stringify(booking)
       })
       .then(response => {
-        console.log(response);
+        console.info(response);
       })
     };
 
     async changeData(changedBooking) {
       const id = Object.keys(changedBooking)[0];
-      return fetch(`http://localhost:5001/medlem/boka/uppdatera_bokning/${id}`, {
+      fetch(`http://localhost:5001/medlem/boka/uppdatera_bokning/${id}`, {
         method : "put",
         headers : {
           'Content-Type': 'application/json',
@@ -70,52 +70,33 @@ export default class Bookings extends React.PureComponent {
         body: JSON.stringify(changedBooking)
       })
       .then(response => {
-        console.log(response);
+        console.info(response);
       })
     };
 
     async deleteData(deletedBooking) {
-      return fetch(`http://localhost:5001/medlem/boka/ta_bort_bokning/${deletedBooking}`, {
+      fetch(`http://localhost:5001/medlem/boka/ta_bort_bokning/${deletedBooking}`, {
         method : "delete",
+      })
+      .then(response => {
+        console.info(response);
       })
     };
   
     async commitChanges(arg) {
+      // arg = { added: ..., changed: ..., deleted: ...}
       const { added, changed, deleted } = arg
 
-      // arg = { added: ..., changed: ..., deleted: ...}
       if (added) {
         await this.postData(added)
-        this.getData()
       }
       if (changed) {
-        console.log(changed)
-        this.changeData(changed)
+        await this.changeData(changed)
       }
       if (deleted) {
-        console.log(deleted)
-        this.deleteData(deleted)
+        await this.deleteData(deleted)
       }
-
-      // this.setState((state) => {
-      //   let { data } = state;
-      //   if (added) {
-      //     const startingAddedId = data.length > 0 ? data[data.length - 1].id + 1 : 0;
-      //     data = [...data, { id: startingAddedId, ...added }];
-      //     this.postData(added).then(() => {console.info("hejhej")})
-      //     console.log("added", added);
-      //   }
-      //   if (changed) {
-      //     data = data.map(appointment => (
-      //       changed[appointment.id] ? { ...appointment, ...changed[appointment.id] } : appointment));
-      //   }
-      //   if (deleted !== undefined) {
-      //     data = data.filter(appointment => appointment.id !== deleted);
-      //   }
-      //   // Fetches all data from the database
-      //   // this.getData();
-      //   return { data };
-      // });
+      this.getData();
     };
   
     render() {
