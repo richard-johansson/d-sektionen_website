@@ -8,6 +8,8 @@ import Navbar from "./components/navbar";
 import HomePage from "./components/homePage";
 import Member from "./components/member";
 import NewStudents from "./components/newStudents";
+import Logging from "./components/logging";
+import BookCar from "./components/bookCar";
  
 const App = () => {
  return (
@@ -17,9 +19,11 @@ const App = () => {
        <Route exact path="/" element={<HomePage />} />
        <Route path="/sokande" element={<NewStudents />} />
        <Route path="/medlem" element={<Member />} />
+       <Route path="/medlem/logg" element={<Logging />} />
+       <Route path="/medlem/boka" element={<BookCar />} />
      </Routes>
    </div>
  );
 };
- 
+
 export default App;
