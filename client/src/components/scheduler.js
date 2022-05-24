@@ -14,9 +14,8 @@ import {
   AppointmentForm,
   AppointmentTooltip,
   ConfirmationDialog,
-  DragDropProvider,
+  DragDropProvider
 } from '@devexpress/dx-react-scheduler-material-ui';
-
 
 export default class Bookings extends React.PureComponent {
     constructor(props) {
@@ -114,7 +113,7 @@ export default class Bookings extends React.PureComponent {
             data={data}
             height={660}
             locale={'sv-SE'}
-          >
+            >
             <ViewState
               defaultCurrentViewName="Week"
             />
@@ -138,14 +137,57 @@ export default class Bookings extends React.PureComponent {
             <Toolbar/>
             <ViewSwitcher/>
             <DateNavigator/>
-            <TodayButton/>
+            <TodayButton 
+              messages={{ today: "Idag" }} 
+            />
             <Appointments />
             <DragDropProvider />
             <AppointmentTooltip
               showOpenButton
               showDeleteButton
             />
-            <AppointmentForm />
+            <AppointmentForm
+              dateEditorComponent={(props) => {
+                return (
+                  <AppointmentForm.DateEditor
+                        {...props}
+                        locale={"sv-SE"}
+                  />
+                );
+              }}
+              messages = {{
+                detailsLabel: "Detaljer",
+                allDayLabel: "Heldag",
+                titleLabel: "Titel",
+                commitCommand: "Spara",
+                moreInformationLabel: "Beskrivning",
+                repeatLabel: "Upprepa",
+                notesLabel: "Lägg till beskrivning",
+                never: "Upprepas inte",
+                daily: "Dagligen",
+                weekly: "Veckovis",
+                monthly: "Månatligen",
+                yearly: "Årligen",
+                repeatEveryLabel: "Varje",
+                daysLabel: "dag(ar)",
+                endRepeatLabel: "Slutar",
+                onLabel: "Efter",
+                afterLabel: "Den",
+                occurrencesLabel: "veckor",
+                weeksOnLabel: "veckor",
+                monthsLabel: "månader",
+                ofEveryMonthLabel: "varje månad",
+                theLabel: "Den",
+                firstLabel: "Första",
+                secondLabel: "Andra",
+                thirdLabel: "Tredje",
+                fourthLabel: "Fjärde",
+                lastLabel: "Sista",
+                yearsLabel: "år",
+                ofLabel: "av",
+                everyLabel: "Varje",
+              }}
+            />
           </Scheduler>
         </Paper>
       );
