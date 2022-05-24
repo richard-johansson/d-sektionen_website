@@ -14,20 +14,24 @@ import {
   AppointmentForm,
   AppointmentTooltip,
   ConfirmationDialog,
-  DragDropProvider
+  DragDropProvider,
+  Resources
 } from '@devexpress/dx-react-scheduler-material-ui';
+import { object } from 'prop-types';
 
 export default class Bookings extends React.PureComponent {
     constructor(props) {
       super(props);
       this.state = {
-        data: []
+        data: [],
+        resources: []
       };
       this.commitChanges = this.commitChanges.bind(this);
     }
 
     componentDidMount() {
       this.getData();
+      this.getResources();
     }
 
     async getData() {
@@ -46,6 +50,30 @@ export default class Bookings extends React.PureComponent {
         data = data.map(app => ({id: app._id, ...app}))
         this.setState({
           data: data
+        });
+      });
+    };
+
+    async getResources() {
+      const resourcesUrl = "http://localhost:5001/medlem/boka/hamta_resurser";
+    
+      const schedule = await fetch(resourcesUrl, {headers : { 
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+        }
+      })
+      .then(response => {
+        return response.json();
+      })
+      .then((data) => {
+        console.log("getResources()", data);
+        data = data.map(app => ({id: app._id, ...app}))
+        this.setState({
+          resources: [{
+            fieldName: 'cars',
+            title: 'Bilar',
+            instances: data
+          }]
         });
       });
     };
@@ -105,7 +133,7 @@ export default class Bookings extends React.PureComponent {
     };
   
     render() {
-      const { data } = this.state;
+      const { data, resources } = this.state;
   
       return (
         <Paper>
@@ -141,6 +169,10 @@ export default class Bookings extends React.PureComponent {
               messages={{ today: "Idag" }} 
             />
             <Appointments />
+            <Resources
+              data={resources}
+              mainResourceName="cars"
+            />
             <DragDropProvider />
             <AppointmentTooltip
               showOpenButton
