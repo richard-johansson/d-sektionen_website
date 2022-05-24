@@ -34,15 +34,36 @@ const ObjectId = require("mongodb").ObjectId;
             Paid            boolean
 */
 
+// Checking conflicts
+function isConflict(booking) {
+    let db_connect = dbo.getDb();
+    const carID = booking.cars;
+    console.log(carID)
+
+    // Get all current bookings for that car
+    let result
+    db_connect
+        .collection("bookings")
+        .find({
+            "cars" : carID
+        },
+        result);
+
+    console.log(result);
+
+    return false
+}
+
 // This section will help you create a new booking.
 bookingsRoutes.route("/medlem/boka/ny_bokning").post(function (req, response) 
 {
     console.log("/medlem/boka/ny_bokning");
     let db_connect = dbo.getDb();
     // let booking = {
-    //     data: req.body
-    // };
-    let booking = req.body;
+        //     data: req.body
+        // };
+        let booking = req.body;
+    isConflict(booking)
     console.log("Booking: ", booking);
     db_connect.collection("bookings").insertOne(booking, function (err, res) 
     {
