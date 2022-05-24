@@ -63,8 +63,13 @@ bookingsRoutes.route("/medlem/boka/uppdatera_bokning/:id").put(function (req, re
 
     db_connect.collection("bookings").updateOne(
         query, 
-        newvalues
-    )
+        newvalues, 
+        function (err, obj) {
+            if (err) throw err;
+            console.log("1 document updated");
+            response.json(obj);
+        }
+    );
 });
 
 // This section will help you get a list of all the bookings.
