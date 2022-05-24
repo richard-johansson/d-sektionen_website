@@ -16,7 +16,8 @@ import {
   ConfirmationDialog,
   DragDropProvider,
   Resources,
-  EditRecurrenceMenu
+  EditRecurrenceMenu,
+  AllDayPanel
 } from '@devexpress/dx-react-scheduler-material-ui';
 import { object } from 'prop-types';
 
@@ -180,6 +181,7 @@ export default class Bookings extends React.PureComponent {
               messages={{ today: "Idag" }} 
             />
             <Appointments />
+            <AllDayPanel />
             <Resources
               data={resources}
               mainResourceName="cars"
