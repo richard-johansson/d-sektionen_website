@@ -9,6 +9,7 @@ import {
   AppointmentForm,
   AppointmentTooltip,
   ConfirmationDialog,
+  DragDropProvider,
 } from '@devexpress/dx-react-scheduler-material-ui';
 
 
@@ -119,6 +120,7 @@ export default class Bookings extends React.PureComponent {
               endDayHour={17.5}
             />
             <Appointments />
+            <DragDropProvider />
             <AppointmentTooltip
               showOpenButton
               showDeleteButton
