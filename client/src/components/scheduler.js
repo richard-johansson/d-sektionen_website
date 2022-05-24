@@ -15,7 +15,8 @@ import {
   AppointmentTooltip,
   ConfirmationDialog,
   DragDropProvider,
-  Resources
+  Resources,
+  EditRecurrenceMenu
 } from '@devexpress/dx-react-scheduler-material-ui';
 import { object } from 'prop-types';
 
@@ -147,6 +148,16 @@ export default class Bookings extends React.PureComponent {
             />
             <EditingState
               onCommitChanges={this.commitChanges}
+            />
+            <EditRecurrenceMenu
+              messages={{
+                current: "Den här händelsen",
+                currentAndFollowing: "Den här och kommande händelser",
+                all: "Alla händelser",
+                menuEditingTitle: "Redigera återkommande händelse",
+                menuDeletingTitle: "Ta bort återkommande händelse",
+                cancelButton: "Avbryt",
+              }}
             />
             <IntegratedEditing />
             <ConfirmationDialog />
