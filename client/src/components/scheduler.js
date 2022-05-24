@@ -73,6 +73,12 @@ export default class Bookings extends React.PureComponent {
         console.log(response);
       })
     };
+
+    async deleteData(deletedBooking) {
+      return fetch(`http://localhost:5001/medlem/boka/ta_bort_bokning/${deletedBooking}`, {
+        method : "delete",
+      })
+    };
   
     async commitChanges(arg) {
       const { added, changed, deleted } = arg
@@ -85,7 +91,10 @@ export default class Bookings extends React.PureComponent {
       if (changed) {
         console.log(changed)
         this.changeData(changed)
-        
+      }
+      if (deleted) {
+        console.log(deleted)
+        this.deleteData(deleted)
       }
 
       // this.setState((state) => {
