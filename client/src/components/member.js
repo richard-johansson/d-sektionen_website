@@ -10,7 +10,7 @@ export default function Member() {
             <a>Välkommen till medlemssidan!</a>
             <Link to="/medlem/boka">
                 <button type="button" class="btn btn-secondary">Boka bil</button>
-            </Link>
+            </Link>   
         </div>
     );
    }

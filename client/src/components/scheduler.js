@@ -1,5 +1,6 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import Paper from '@mui/material/Paper';
+import { withSnackbar } from 'notistack';
 import { ViewState, EditingState, IntegratedEditing } from '@devexpress/dx-react-scheduler';
 import {
   Scheduler,
@@ -21,7 +22,7 @@ import {
 } from '@devexpress/dx-react-scheduler-material-ui';
 import { object } from 'prop-types';
 
-export default class Bookings extends React.PureComponent {
+class Bookings extends React.PureComponent {
     constructor(props) {
       super(props);
       this.state = {
@@ -131,6 +132,23 @@ export default class Bookings extends React.PureComponent {
       })
       .then(response => {
         console.info(response);
+        let variant = '', message = '';
+        switch (parseInt(response.status)) {
+          case 200:
+            variant = 'success'
+            message = 'Bokning gjord'
+            break;
+          case 409:
+            variant = 'error'
+            message = 'Bokningen överlappar med en tidigare bokning'
+            break;
+          default:
+            variant = 'error'
+            message = 'Bokningen kunde inte göras'
+        }
+        this.props.enqueueSnackbar(message, { 
+          variant: variant
+        });
       })
     };
 
@@ -146,6 +164,23 @@ export default class Bookings extends React.PureComponent {
       })
       .then(response => {
         console.info(response);
+        let variant = '', message = '';
+        switch (parseInt(response.status)) {
+          case 200:
+            variant = 'success'
+            message = 'Bokning har ändrats'
+            break;
+          case 409:
+            variant = 'error'
+            message = 'Ändringen överlappar med en tidigare bokning'
+            break;
+          default:
+            variant = 'error'
+            message = 'Bokningen kunde inte ändras'
+        }
+        this.props.enqueueSnackbar(message, { 
+          variant: variant
+        });
       })
     };
 
@@ -155,6 +190,19 @@ export default class Bookings extends React.PureComponent {
       })
       .then(response => {
         console.info(response);
+        let variant = '', message = '';
+        switch (parseInt(response.status)) {
+          case 200:
+            variant = 'success'
+            message = 'Bokningen togs bort'
+            break;
+          default:
+            variant = 'error'
+            message = 'Bokningen kunde inte tas bort'
+        }
+        this.props.enqueueSnackbar(message, { 
+          variant: variant
+        });
       })
     };
   
@@ -236,3 +284,4 @@ export default class Bookings extends React.PureComponent {
     }
   }
   
+  export default withSnackbar(Bookings);
