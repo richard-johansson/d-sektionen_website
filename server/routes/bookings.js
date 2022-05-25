@@ -1,3 +1,4 @@
+const { json } = require("express");
 const express = require("express");
 
 // bookingsRoutes is an instance of the express router.
@@ -34,16 +35,59 @@ const ObjectId = require("mongodb").ObjectId;
             Paid            boolean
 */
 
+// Checking conflicts
+async function isConflict(oldBooking, changedBooking={}) {
+    // Ovverwite booking with properties from changedBooking if there are any
+    const booking = Object.assign(oldBooking, changedBooking);
+
+    let db_connect = dbo.getDb();
+    const carID = booking.cars;
+    
+    console.log("CHECKING CONFLICTS");
+    // Get all bookings for the car
+    const newStartDate = booking.startDate;
+    const newEndDate = booking.endDate;
+
+    let bookingsByCarID = await db_connect
+        .collection("bookings")
+        .find({
+            "_id" : {$nin : [booking._id]},
+            "cars" : carID,
+            $or: [
+                {$and: [
+                    {startDate:{$gte: newStartDate}}, {startDate:{$lt: newEndDate}}
+                ]},
+                {startDate:{$lt: newStartDate}, endDate:{$gt: newStartDate}}
+            ]
+        })
+        .toArray();
+
+    console.log("result:", bookingsByCarID);
+
+    if (bookingsByCarID.length === 0) {
+        console.log("No conflict!")
+        return false
+    }
+    console.log("Conflict!!!!")
+    return true
+}
+
 // This section will help you create a new booking.
-bookingsRoutes.route("/medlem/boka/ny_bokning").post(function (req, response) 
+bookingsRoutes.route("/medlem/boka/ny_bokning").post(async function (req, response) 
 {
     console.log("/medlem/boka/ny_bokning");
     let db_connect = dbo.getDb();
-    // let booking = {
-    //     data: req.body
-    // };
+    
     let booking = req.body;
     console.log("Booking: ", booking);
+    
+    if (await isConflict(booking))
+    {
+        // 409 Conflict
+        return response.status(409).json({
+            "detail" : "Bilen är redan bokad denna tid!"
+        });
+    }
     db_connect.collection("bookings").insertOne(booking, function (err, res) 
     {
         if (err) throw err;
@@ -52,7 +96,7 @@ bookingsRoutes.route("/medlem/boka/ny_bokning").post(function (req, response)
 });
 
 // This section will help you update a record by id.
-bookingsRoutes.route("/medlem/boka/uppdatera_bokning/:id").put(function (req, response) {
+bookingsRoutes.route("/medlem/boka/uppdatera_bokning/:id").put(async function (req, response) {
     console.log("********* /medlem/boka/uppdatera_bokning ********");
     console.log("req.body", req.body);
     
@@ -60,6 +104,18 @@ bookingsRoutes.route("/medlem/boka/uppdatera_bokning/:id").put(function (req, re
     const _id = req.params.id;
     let query = { _id: ObjectId( _id )};  
     let newvalues = {$set : req.body[_id]}
+    
+    // Check conflict
+    const oldBooking = await db_connect.collection("bookings").findOne(query);
+    
+    console.log("oldBooking:", oldBooking)
+    if (await isConflict(oldBooking, req.body[_id]))
+    {
+        // 409 Conflict
+        return response.status(409).json({
+            "detail" : "Bilen är redan bokad denna tid!"
+        });
+    }
 
     db_connect.collection("bookings").updateOne(
         query, 
