@@ -36,7 +36,7 @@ const ObjectId = require("mongodb").ObjectId;
 */
 
 // Checking conflicts
-async function isConflict(booking) {
+async function isConflict(booking, changedBooking={}) {
     let db_connect = dbo.getDb();
     const carID = booking.cars;
     
@@ -58,9 +58,9 @@ async function isConflict(booking) {
         })
         .toArray();
 
-    // console.log("result:", bookingsByCarID);
+    console.log("result:", bookingsByCarID);
 
-    if (bookingsByCarID === 0) {
+    if (bookingsByCarID.length === 0) {
         console.log("No conflict!")
         return false
     }
@@ -69,7 +69,7 @@ async function isConflict(booking) {
 }
 
 // This section will help you create a new booking.
-bookingsRoutes.route("/medlem/boka/ny_bokning").post(function (req, response) 
+bookingsRoutes.route("/medlem/boka/ny_bokning").post(async function (req, response) 
 {
     console.log("/medlem/boka/ny_bokning");
     let db_connect = dbo.getDb();
@@ -77,7 +77,7 @@ bookingsRoutes.route("/medlem/boka/ny_bokning").post(function (req, response)
     let booking = req.body;
     console.log("Booking: ", booking);
     
-    if (isConflict(booking))
+    if (await isConflict(booking))
     {
         // 409 Conflict
         return response.status(409).json({
@@ -92,7 +92,7 @@ bookingsRoutes.route("/medlem/boka/ny_bokning").post(function (req, response)
 });
 
 // This section will help you update a record by id.
-bookingsRoutes.route("/medlem/boka/uppdatera_bokning/:id").put(function (req, response) {
+bookingsRoutes.route("/medlem/boka/uppdatera_bokning/:id").put(async function (req, response) {
     console.log("********* /medlem/boka/uppdatera_bokning ********");
     console.log("req.body", req.body);
     
@@ -100,6 +100,18 @@ bookingsRoutes.route("/medlem/boka/uppdatera_bokning/:id").put(function (req, re
     const _id = req.params.id;
     let query = { _id: ObjectId( _id )};  
     let newvalues = {$set : req.body[_id]}
+    
+    // Check conflict
+    const oldBooking = await db_connect.collection("bookings").findOne(query);
+    
+    console.log("oldBooking:", oldBooking)
+    if (await isConflict(oldBooking, req.body[_id]))
+    {
+        // 409 Conflict
+        return response.status(409).json({
+            "detail" : "Bilen är redan bokad denna tid!"
+        });
+    }
 
     db_connect.collection("bookings").updateOne(
         query, 
