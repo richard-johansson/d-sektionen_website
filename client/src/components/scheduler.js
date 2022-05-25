@@ -197,16 +197,11 @@ export default class Bookings extends React.PureComponent {
             <ConfirmationDialog />
             <DayView
               startDayHour={7.5}
-              endDayHour={17.5}
             />
             <WeekView
               startDayHour={7.5}
-              endDayHour={17.5}
             />
-            <MonthView
-              startDayHour={7.5}
-              endDayHour={17.5}
-            />
+            <MonthView />
             <Toolbar/>
             <ViewSwitcher/>
             <DateNavigator/>
