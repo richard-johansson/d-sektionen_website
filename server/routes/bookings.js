@@ -35,23 +35,36 @@ const ObjectId = require("mongodb").ObjectId;
 */
 
 // Checking conflicts
-function isConflict(booking) {
+async function isConflict(booking) {
     let db_connect = dbo.getDb();
     const carID = booking.cars;
-    console.log(carID)
+    
+    console.log("CHECKING CONFLICTS");
+    // Get all bookings for the car
+    const newStartDate = booking.startDate;
+    const newEndDate = booking.endDate;
 
-    // Get all current bookings for that car
-    let result
-    db_connect
+    let bookingsByCarID = await db_connect
         .collection("bookings")
         .find({
-            "cars" : carID
-        },
-        result);
+            "cars" : carID,
+            $or: [
+                {$and: [
+                    {startDate:{$gt: newStartDate}}, {startDate:{$lt: newEndDate}}
+                ]},
+                {startDate:{$lt: newStartDate}, endDate:{$gt: newStartDate}}
+            ]
+        })
+        .toArray();
 
-    console.log(result);
+    // console.log("result:", bookingsByCarID);
 
-    return false
+    if (bookingsByCarID === 0) {
+        console.log("No conflict!")
+        return false
+    }
+    console.log("Conflict!!!!")
+    return true
 }
 
 // This section will help you create a new booking.
