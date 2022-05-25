@@ -1,3 +1,4 @@
+const { json } = require("express");
 const express = require("express");
 
 // bookingsRoutes is an instance of the express router.
@@ -72,12 +73,17 @@ bookingsRoutes.route("/medlem/boka/ny_bokning").post(function (req, response)
 {
     console.log("/medlem/boka/ny_bokning");
     let db_connect = dbo.getDb();
-    // let booking = {
-        //     data: req.body
-        // };
-        let booking = req.body;
-    isConflict(booking)
+    
+    let booking = req.body;
     console.log("Booking: ", booking);
+    
+    if (isConflict(booking))
+    {
+        // 409 Conflict
+        return response.status(409).json({
+            "detail" : "Bilen är redan bokad denna tid!"
+        });
+    }
     db_connect.collection("bookings").insertOne(booking, function (err, res) 
     {
         if (err) throw err;
