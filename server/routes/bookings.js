@@ -51,10 +51,11 @@ async function isConflict(oldBooking, changedBooking={}) {
     let bookingsByCarID = await db_connect
         .collection("bookings")
         .find({
+            "_id" : {$nin : [booking._id]},
             "cars" : carID,
             $or: [
                 {$and: [
-                    {startDate:{$gt: newStartDate}}, {startDate:{$lt: newEndDate}}
+                    {startDate:{$gte: newStartDate}}, {startDate:{$lt: newEndDate}}
                 ]},
                 {startDate:{$lt: newStartDate}, endDate:{$gt: newStartDate}}
             ]
