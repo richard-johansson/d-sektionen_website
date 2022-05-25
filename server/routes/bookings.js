@@ -36,7 +36,10 @@ const ObjectId = require("mongodb").ObjectId;
 */
 
 // Checking conflicts
-async function isConflict(booking, changedBooking={}) {
+async function isConflict(oldBooking, changedBooking={}) {
+    // Ovverwite booking with properties from changedBooking if there are any
+    const booking = Object.assign(oldBooking, changedBooking);
+
     let db_connect = dbo.getDb();
     const carID = booking.cars;
     
