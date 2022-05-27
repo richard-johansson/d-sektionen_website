@@ -8,37 +8,37 @@ import "bootstrap/dist/css/bootstrap.css";
 
 export default function Member() {
     const { user, isAuthenticated } = useAuth0();
-    let button, greeting;
     let content;
     if (!isAuthenticated)
     {
         content = 
-            <div className="col-md-4 align-items-center">
+            <div className="col align-items-center">
                 <div className="row">
                     <a>Du måste logga in för att få åtkomst till medlemssidan!</a>
                 </div>
-                <div className="row">
+                <div className="row-md-2">
                     <LoginButton/>
                 </div>
             </div>;
     }
     else
     {
+        console.log(user)
         content = 
             <div className="row">
-                <div className="col-md-4 border-right align-items-center text-center">        
+                <div className="col-md-3 border-right text-center">        
                     <div className="row">
-                        <img class="rounded-circle mt-5" style={{width:"150px"}} src={user?.picture}></img>
+                        <img class="rounded-circle m-auto align-items-center" style={{width:"150px"}} src={user?.picture}></img>
                     </div>
                     <div className="row">
-                        <h4>{user?.name}</h4>
-                        <a>{user?.email}</a>
+                        <h4 className="text-break">{user?.name}</h4>
+                        <a className="text-break">{user?.email}</a>
                     </div>
                 </div>
-                <div className="col-md-8 border-right">
+                <div className="col-md-9 border-right">
                     <div className="row">
-                        <h2>Boka bilen</h2>
-                        <a>lorem ipsum soret tala hobob mobar</a>
+                        <h2>Medlemstjänster</h2>
+                        <a>Välkommen till D-sektionens medlemssida {user?.given_name}. Nedan finns våra tjänster för medlemmar.</a>
                         <Link to="/medlem/boka">
                             <button type="button" className="btn btn-secondary">Boka bil</button>
                         </Link>
