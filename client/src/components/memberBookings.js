@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React from 'react';
 import Paper from '@mui/material/Paper';
 import { withSnackbar } from 'notistack';
 import { ViewState, EditingState, IntegratedEditing } from '@devexpress/dx-react-scheduler';
@@ -12,15 +12,12 @@ import {
   DateNavigator,
   TodayButton,
   Appointments,
-  AppointmentForm,
   AppointmentTooltip,
   ConfirmationDialog,
-  DragDropProvider,
   Resources,
   EditRecurrenceMenu,
   AllDayPanel
 } from '@devexpress/dx-react-scheduler-material-ui';
-import { object } from 'prop-types';
 
 class MemberBookings extends React.PureComponent {
     constructor(props) {
@@ -204,7 +201,6 @@ class MemberBookings extends React.PureComponent {
               data={resources}
               mainResourceName="cars"
             />
-            <DragDropProvider />
             <AppointmentTooltip
               showOpenButton
               showDeleteButton
