@@ -183,4 +183,21 @@ bookingsRoutes.route("/medlem/boka/ta_bort_bokning/:id").delete(async function(r
         });
   });
 
+  bookingsRoutes.route("/medlem/boka/hamta_alla_med_email").get(function (req, res) {
+    let db_connect = dbo.getDb("database");
+    db_connect
+        .collection("bookings")
+        .find({
+            "email" : req.body.reqEmail
+        })
+        .toArray(function (err, result) {
+            if (err) {
+                res.send(err);
+            } else {
+                // 
+                res.send(JSON.stringify(result));
+            }
+        });
+});
+
 module.exports = bookingsRoutes;
