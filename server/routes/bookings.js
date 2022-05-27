@@ -72,10 +72,10 @@ async function isConflict(oldBooking, changedBooking={}) {
     return true
 }
 
-function isAuthorized(oldBooking, changedBooking) {
-    console.log("oldbooking email: ", oldBooking.email);
-    console.log("changedBooking email: ", changedBooking.email);
-    if (oldBooking.email === changedBooking.email) {
+function isAuthorized(oldEmail, reqEmail) {
+    console.log("old email: ", oldEmail);
+    console.log("req email: ", reqEmail);
+    if (oldEmail === reqEmail) {
         return true;
     }
     return false;
@@ -118,7 +118,7 @@ bookingsRoutes.route("/medlem/boka/uppdatera_bokning/:id").put(async function (r
     const oldBooking = await db_connect.collection("bookings").findOne(query);
     
     console.log("oldBooking:", oldBooking)
-    if (isAuthorized(oldBooking, req.body[_id])) {
+    if (isAuthorized(oldBooking.email, req.body[_id].email)) {
         if (await isConflict(oldBooking, req.body[_id]))
         {
             // 409 Conflict
@@ -127,6 +127,7 @@ bookingsRoutes.route("/medlem/boka/uppdatera_bokning/:id").put(async function (r
             });
         }
     }   else {
+            // 401 Unauthorized
             return response.status(401).json({
                 "detail" : "Du kan inte ändra någon annans bokning"
         });
@@ -160,9 +161,18 @@ bookingsRoutes.route("/medlem/boka/hamta_alla").get(function (req, res) {
 });
 
 // This section will help you delete a record
-bookingsRoutes.route("/medlem/boka/ta_bort_bokning/:id").delete((req, response) => {
+bookingsRoutes.route("/medlem/boka/ta_bort_bokning/:id").delete(async function(req, response) {
     let db_connect = dbo.getDb();
     let myquery = { _id: ObjectId( req.params.id )};
+
+    const oldBooking = await db_connect.collection("bookings").findOne(myquery);
+    console.log(req.body);
+
+    if (!isAuthorized(oldBooking.email, req.body.reqEmail)) {
+        return response.status(401).json({
+            "detail" : "Du kan inte ta bort någon annans bokning"
+        });
+    }
 
     db_connect
         .collection("bookings")

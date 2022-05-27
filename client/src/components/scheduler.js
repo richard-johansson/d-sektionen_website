@@ -192,8 +192,15 @@ class Bookings extends React.PureComponent {
     };
 
     async deleteData(deletedBooking) {
+      //const reqEmail = this.email;
+      //console.log("reqEmail:", reqEmail)
       fetch(`http://localhost:5001/medlem/boka/ta_bort_bokning/${deletedBooking}`, {
         method : "delete",
+        headers : {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({"reqEmail" :  this.email}),
       })
       .then(response => {
         console.info(response);
@@ -202,6 +209,10 @@ class Bookings extends React.PureComponent {
           case 200:
             variant = 'success'
             message = 'Bokningen togs bort'
+            break;
+          case 401:
+            variant = 'error'
+            message = 'Du kan inte ta bort någon annans bokning'
             break;
           default:
             variant = 'error'
