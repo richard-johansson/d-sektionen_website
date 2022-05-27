@@ -9,24 +9,48 @@ import "bootstrap/dist/css/bootstrap.css";
 export default function Member() {
     const { user, isAuthenticated } = useAuth0();
     let button, greeting;
-    if (isAuthenticated)
+    let content;
+    if (!isAuthenticated)
     {
-        button = 
-            <Link to="/medlem/boka">
-                <button type="button" class="btn btn-secondary">Boka bil</button>
-            </Link>;
-        greeting = "Välkommen till medlemssidan " + user?.name;
+        content = 
+            <div className="col-md-4 align-items-center">
+                <div className="row">
+                    <a>Du måste logga in för att få åtkomst till medlemssidan!</a>
+                </div>
+                <div className="row">
+                    <LoginButton/>
+                </div>
+            </div>;
     }
     else
     {
-    button = <LoginButton/>;
-    greeting = "Du måste logga in för att få åtkomst till medlemssidan!";
+        content = 
+            <div className="row">
+                <div className="col-md-4 border-right align-items-center text-center">        
+                    <div className="row">
+                        <img class="rounded-circle mt-5" style={{width:"150px"}} src={user?.picture}></img>
+                    </div>
+                    <div className="row">
+                        <h4>{user?.name}</h4>
+                        <a>{user?.email}</a>
+                    </div>
+                </div>
+                <div className="col-md-8 border-right">
+                    <div className="row">
+                        <h2>Boka bilen</h2>
+                        <a>lorem ipsum soret tala hobob mobar</a>
+                        <Link to="/medlem/boka">
+                            <button type="button" className="btn btn-secondary">Boka bil</button>
+                        </Link>
+                        <h2>Aktuella bokningar</h2>
+                    </div>
+                </div>
+            </div>;
     }
 
     return (
-        <div>
-            <a>{greeting}</a>
-            {button}   
+        <div className="container rounded bg-white mt-5 mb-5">
+            {content}
         </div>
     );
-   }
+}

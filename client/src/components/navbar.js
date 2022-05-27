@@ -18,7 +18,7 @@ export default function Navbar() {
   if (isAuthenticated)
   {
     button = <LogoutButton />;
-    greeting = "Välkommen " + user?.name + "!";
+    greeting = "Hej " + user?.name + "!";
   }
   else
   {
