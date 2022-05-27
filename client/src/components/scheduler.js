@@ -25,7 +25,7 @@ import { object } from 'prop-types';
 class Bookings extends React.PureComponent {
     constructor(props) {
       super(props);
-      this.email = this.props.email
+      this.email = props.email
       this.state = {
         data: [],
         resources: []
@@ -123,6 +123,7 @@ class Bookings extends React.PureComponent {
     };
 
     async postData(booking) {
+      booking.email = this.email;
       fetch(`http://localhost:5001/medlem/boka/ny_bokning`, {
         method : "post",
         headers : {
@@ -154,10 +155,8 @@ class Bookings extends React.PureComponent {
     };
 
     async changeData(changedBooking) {
-      console.info(this.email);
-      changedBooking['email'] = this.email;
-      console.info(changedBooking);
       const id = Object.keys(changedBooking)[0];
+      changedBooking[id].email = this.email;
       fetch(`http://localhost:5001/medlem/boka/uppdatera_bokning/${id}`, {
         method : "put",
         headers : {
