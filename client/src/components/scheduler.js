@@ -29,13 +29,9 @@ import Tesla from '../img/tesla.jpg'; // Import using relative path
 const PREFIX = 'schedule';
 
 const classes = {
-  icon: `${PREFIX}-icon`,
-  textCenter: `${PREFIX}-textCenter`,
   firstRoom: `${PREFIX}-firstRoom`,
   secondRoom: `${PREFIX}-secondRoom`,
-  thirdRoom: `${PREFIX}-thirdRoom`,
   header: `${PREFIX}-header`,
-  commandButton: `${PREFIX}-commandButton`,
 };
 
 const StyledAppointmentTooltipHeader = styled(AppointmentTooltip.Header)(() => ({
