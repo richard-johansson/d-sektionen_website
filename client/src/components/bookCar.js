@@ -8,7 +8,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 
 export default function BookCar() {
-    const {isAuthenticated } = useAuth0();
+    const {isAuthenticated, user } = useAuth0();
     const navigate = useNavigate();
 
     useEffect( () => {
@@ -21,7 +21,8 @@ export default function BookCar() {
         <div className="container">
             <h2>Bilbokning</h2>
             <a>Här kan du boka sektionsbilarna.</a>
-            <Bookings />
+            {/* <Bookings email={user.email} /> */}
+            <Bookings></Bookings>
         </div>
     );
 }
