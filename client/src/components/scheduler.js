@@ -25,6 +25,7 @@ import { object } from 'prop-types';
 class Bookings extends React.PureComponent {
     constructor(props) {
       super(props);
+      this.email = props.email
       this.state = {
         data: [],
         resources: []
@@ -122,6 +123,7 @@ class Bookings extends React.PureComponent {
     };
 
     async postData(booking) {
+      booking.email = this.email;
       fetch(`http://localhost:5001/medlem/boka/ny_bokning`, {
         method : "post",
         headers : {
@@ -154,6 +156,7 @@ class Bookings extends React.PureComponent {
 
     async changeData(changedBooking) {
       const id = Object.keys(changedBooking)[0];
+      changedBooking[id].email = this.email;
       fetch(`http://localhost:5001/medlem/boka/uppdatera_bokning/${id}`, {
         method : "put",
         headers : {
@@ -174,6 +177,10 @@ class Bookings extends React.PureComponent {
             variant = 'error'
             message = 'Ändringen överlappar med en tidigare bokning'
             break;
+          case 401:
+            variant = 'error'
+            message = 'Du kan inte ändra någon annans bokning'
+            break;
           default:
             variant = 'error'
             message = 'Bokningen kunde inte ändras'
@@ -185,8 +192,15 @@ class Bookings extends React.PureComponent {
     };
 
     async deleteData(deletedBooking) {
+      //const reqEmail = this.email;
+      //console.log("reqEmail:", reqEmail)
       fetch(`http://localhost:5001/medlem/boka/ta_bort_bokning/${deletedBooking}`, {
         method : "delete",
+        headers : {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({"reqEmail" :  this.email}),
       })
       .then(response => {
         console.info(response);
@@ -195,6 +209,10 @@ class Bookings extends React.PureComponent {
           case 200:
             variant = 'success'
             message = 'Bokningen togs bort'
+            break;
+          case 401:
+            variant = 'error'
+            message = 'Du kan inte ta bort någon annans bokning'
             break;
           default:
             variant = 'error'
