@@ -18,6 +18,40 @@ import {
   EditRecurrenceMenu,
   AllDayPanel
 } from '@devexpress/dx-react-scheduler-material-ui';
+import { styled } from '@mui/material/styles';
+import classNames from 'clsx';
+import Kia from '../img/kiaceed.png'; // Import using relative path
+import Tesla from '../img/tesla.jpg'; // Import using relative path
+
+const PREFIX = 'schedule';
+
+const classes = {
+  firstRoom: `${PREFIX}-firstRoom`,
+  secondRoom: `${PREFIX}-secondRoom`,
+  header: `${PREFIX}-header`,
+};
+
+const StyledAppointmentTooltipHeader = styled(AppointmentTooltip.Header)(() => ({
+  [`&.${classes.firstRoom}`]: {
+    background: `url(${Kia})`,
+  },
+  [`&.${classes.secondRoom}`]: {
+    background: `url(${Tesla})`,
+  },
+  [`&.${classes.header}`]: {
+    height: '260px',
+    backgroundSize: 'cover',
+  },
+}));
+
+const getClassByCar = (cars) => {
+  if (cars === '628cd04b18f1ef12f013af14') {
+    return classes.firstRoom;
+  }
+  else {
+    return classes.secondRoom;
+  }
+};
 
 class MemberBookings extends React.PureComponent {
     constructor(props) {
@@ -29,6 +63,17 @@ class MemberBookings extends React.PureComponent {
       };
       this.commitChanges = this.commitChanges.bind(this);
     }
+
+    Header = (({
+        children, appointmentData, ...restProps
+      }) => (
+        <StyledAppointmentTooltipHeader
+          {...restProps}
+          appointmentData = {this.data}
+          className={classNames(getClassByCar(appointmentData.cars), classes.header)}
+        >
+        </StyledAppointmentTooltipHeader>
+      ));
 
     messages = {
       today: "Idag",
@@ -204,6 +249,7 @@ class MemberBookings extends React.PureComponent {
             <AppointmentTooltip
               showOpenButton
               showDeleteButton
+              headerComponent={this.Header}
             />
           </Scheduler>
         </Paper>
