@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import { Link } from "react-router-dom";
 import LoginButton from "./loginButton";
 import { useAuth0 } from "@auth0/auth0-react";
+import MemberBookings from "./memberBookings";
  
 // We import bootstrap to make our application look better.
 import "bootstrap/dist/css/bootstrap.css";
@@ -29,7 +30,6 @@ export default function Member() {
                     setBookings(data);
                 })
             }
-
             fetchData();
         }
     }, [isAuthenticated])
@@ -68,6 +68,7 @@ export default function Member() {
                             <button type="button" className="btn btn-secondary">Boka bil</button>
                         </Link>
                         <h2>Aktuella bokningar</h2>
+                        <MemberBookings email={user.email}/>
                     </div>
                 </div>
             </div>;
