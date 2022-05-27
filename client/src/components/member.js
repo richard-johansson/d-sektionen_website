@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import LoginButton from "./loginButton";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -10,29 +10,6 @@ import "bootstrap/dist/css/bootstrap.css";
 export default function Member() {
     const { user, isAuthenticated } = useAuth0();
     let content;
-    const [bookings, setBookings] = useState({});
-
-    // Get all the users bookings from the database
-    useEffect(() => {
-        if (isAuthenticated) {
-            async function fetchData() {
-                await fetch(`http://localhost:5001/medlem/boka/hamta_alla_med_email/${user.email}`, {
-                    method : "get",
-                    headers : {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
-                    },
-                })
-                .then(response => {
-                    return response.json();
-                })
-                .then(data => {
-                    setBookings(data);
-                })
-            }
-            fetchData();
-        }
-    }, [isAuthenticated])
 
     if (!isAuthenticated)
     {
@@ -48,7 +25,6 @@ export default function Member() {
     }
     else
     {
-        console.log(bookings)
         content = 
             <div className="row">
                 <div className="col-md-3 border-right text-center">        
