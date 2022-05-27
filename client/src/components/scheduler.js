@@ -177,6 +177,10 @@ class Bookings extends React.PureComponent {
             variant = 'error'
             message = 'Ändringen överlappar med en tidigare bokning'
             break;
+          case 401:
+            variant = 'error'
+            message = 'Du kan inte ändra någon annans bokning'
+            break;
           default:
             variant = 'error'
             message = 'Bokningen kunde inte ändras'

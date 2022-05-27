@@ -72,6 +72,15 @@ async function isConflict(oldBooking, changedBooking={}) {
     return true
 }
 
+function isAuthorized(oldBooking, changedBooking) {
+    console.log("oldbooking email: ", oldBooking.email);
+    console.log("changedBooking email: ", changedBooking.email);
+    if (oldBooking.email === changedBooking.email) {
+        return true;
+    }
+    return false;
+}
+
 // This section will help you create a new booking.
 bookingsRoutes.route("/medlem/boka/ny_bokning").post(async function (req, response) 
 {
@@ -109,11 +118,17 @@ bookingsRoutes.route("/medlem/boka/uppdatera_bokning/:id").put(async function (r
     const oldBooking = await db_connect.collection("bookings").findOne(query);
     
     console.log("oldBooking:", oldBooking)
-    if (await isConflict(oldBooking, req.body[_id]))
-    {
-        // 409 Conflict
-        return response.status(409).json({
-            "detail" : "Bilen är redan bokad denna tid!"
+    if (isAuthorized(oldBooking, req.body[_id])) {
+        if (await isConflict(oldBooking, req.body[_id]))
+        {
+            // 409 Conflict
+            return response.status(409).json({
+                "detail" : "Bilen är redan bokad denna tid!"
+            });
+        }
+    }   else {
+            return response.status(401).json({
+                "detail" : "Du kan inte ändra någon annans bokning"
         });
     }
 
