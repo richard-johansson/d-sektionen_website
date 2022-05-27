@@ -51,7 +51,7 @@ const StyledAppointmentTooltipHeader = styled(AppointmentTooltip.Header)(() => (
   },
 }));
 
-const getClassByLocation = (cars) => {
+const getClassByCar = (cars) => {
   if (cars === '628cd04b18f1ef12f013af14') {
     return classes.firstRoom;
   }
@@ -77,7 +77,7 @@ class Bookings extends React.PureComponent {
       <StyledAppointmentTooltipHeader
         {...restProps}
         appointmentData = {this.data}
-        className={classNames(getClassByLocation(appointmentData.cars), classes.header)}
+        className={classNames(getClassByCar(appointmentData.cars), classes.header)}
       >
       </StyledAppointmentTooltipHeader>
     ));
@@ -145,7 +145,6 @@ class Bookings extends React.PureComponent {
         this.setState({
           data: data
         });
-        console.log("Hejcars", data.cars)
       });
     };
 
