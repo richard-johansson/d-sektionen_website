@@ -8,20 +8,28 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 
 export default function BookCar() {
-    const {isAuthenticated } = useAuth0();
+    const {isAuthenticated, user } = useAuth0();
     const navigate = useNavigate();
+    let email = ""
 
-    useEffect( () => {
-        if(!isAuthenticated) {
-           return navigate('/medlem');
+    useEffect(() => {
+        if(!isAuthenticated){
+            navigate('/medlem')
         }
-    }, [])
+    },[isAuthenticated])
+    
+    console.log(isAuthenticated);
+    if(!isAuthenticated) {
+        return (<div></div>)
+    }
+    email = user.email;
+    console.info("from parent: ",email)
 
     return (
         <div className="container">
             <h2>Bilbokning</h2>
             <a>Här kan du boka sektionsbilarna.</a>
-            <Bookings />
+            <Bookings email={email} />
         </div>
     );
 }
