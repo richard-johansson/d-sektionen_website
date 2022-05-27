@@ -20,7 +20,45 @@ import {
   EditRecurrenceMenu,
   AllDayPanel
 } from '@devexpress/dx-react-scheduler-material-ui';
+import { styled } from '@mui/material/styles';
+import classNames from 'clsx';
 import { object } from 'prop-types';
+import Kia from '../img/kiaceed.png'; // Import using relative path
+import Tesla from '../img/tesla.jpg'; // Import using relative path
+
+const PREFIX = 'schedule';
+
+const classes = {
+  icon: `${PREFIX}-icon`,
+  textCenter: `${PREFIX}-textCenter`,
+  firstRoom: `${PREFIX}-firstRoom`,
+  secondRoom: `${PREFIX}-secondRoom`,
+  thirdRoom: `${PREFIX}-thirdRoom`,
+  header: `${PREFIX}-header`,
+  commandButton: `${PREFIX}-commandButton`,
+};
+
+const StyledAppointmentTooltipHeader = styled(AppointmentTooltip.Header)(() => ({
+  [`&.${classes.firstRoom}`]: {
+    background: `url(${Kia})`,
+  },
+  [`&.${classes.secondRoom}`]: {
+    background: `url(${Tesla})`,
+  },
+  [`&.${classes.header}`]: {
+    height: '260px',
+    backgroundSize: 'cover',
+  },
+}));
+
+const getClassByLocation = (cars) => {
+  if (cars === '628cd04b18f1ef12f013af14') {
+    return classes.firstRoom;
+  }
+  else {
+    return classes.secondRoom;
+  }
+};
 
 class Bookings extends React.PureComponent {
     constructor(props) {
@@ -32,6 +70,18 @@ class Bookings extends React.PureComponent {
       };
       this.commitChanges = this.commitChanges.bind(this);
     }
+
+    Header = (({
+      children, appointmentData, ...restProps
+    }) => (
+      <StyledAppointmentTooltipHeader
+        {...restProps}
+        appointmentData = {this.data}
+        className={classNames(getClassByLocation(appointmentData.cars), classes.header)}
+      >
+      </StyledAppointmentTooltipHeader>
+    ));
+    
 
     messages = {
       today: "Idag",
@@ -95,6 +145,7 @@ class Bookings extends React.PureComponent {
         this.setState({
           data: data
         });
+        console.log("Hejcars", data.cars)
       });
     };
 
@@ -239,7 +290,7 @@ class Bookings extends React.PureComponent {
       }
       this.getData();
     };
-  
+
     render() {
       const { data, resources } = this.state;
   
@@ -284,6 +335,7 @@ class Bookings extends React.PureComponent {
             <AppointmentTooltip
               showOpenButton
               showDeleteButton
+              headerComponent={this.Header}
             />
             <AppointmentForm
               dateEditorComponent={(props) => {
