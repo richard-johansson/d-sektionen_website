@@ -183,18 +183,19 @@ bookingsRoutes.route("/medlem/boka/ta_bort_bokning/:id").delete(async function(r
         });
   });
 
-  bookingsRoutes.route("/medlem/boka/hamta_alla_med_email").get(function (req, res) {
+bookingsRoutes.route("/medlem/boka/hamta_alla_med_email/:email").get(function (req, res) {
     let db_connect = dbo.getDb("database");
+    const email = req.params.email;
     db_connect
         .collection("bookings")
         .find({
-            "email" : req.body.reqEmail
+            "email" : email
         })
         .toArray(function (err, result) {
             if (err) {
                 res.send(err);
             } else {
-                // 
+                console.log("get by email: ", result);
                 res.send(JSON.stringify(result));
             }
         });

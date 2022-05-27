@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { Link } from "react-router-dom";
 import LoginButton from "./loginButton";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -47,6 +47,24 @@ export default function Member() {
                 </div>
             </div>;
     }
+
+    useEffect(() => {
+        if (isAuthenticated) {
+            fetch(`http://localhost:5001/medlem/boka/hamta_alla_med_email/${user.email}`, {
+                method : "get",
+                headers : {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+            })
+            .then(response => {
+                return response.json();
+              })
+            .then(data => {
+                console.log(data)
+            })
+        }
+    }, [isAuthenticated])
 
     return (
         <div className="container rounded bg-white mt-5 mb-5">
