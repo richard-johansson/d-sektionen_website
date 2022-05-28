@@ -22,14 +22,14 @@ export default function BookCar() {
     if(!isAuthenticated) {
         return (<div></div>)
     }
-    email = user.email;
-    console.info("from parent: ",email)
+    // email = user.email;
+    console.info("from parent: ", user)
 
     return (
         <div className="container">
             <h2>Bilbokning</h2>
             <a>Här kan du boka sektionsbilarna.</a>
-            <Bookings email={email} />
+            <Bookings user={user} />
         </div>
     );
 }

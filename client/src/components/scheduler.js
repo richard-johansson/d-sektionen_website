@@ -59,7 +59,8 @@ const getClassByCar = (cars) => {
 class Bookings extends React.PureComponent {
     constructor(props) {
       super(props);
-      this.email = props.email
+      this.name = props.user.name
+      this.email = props.user.email
       this.state = {
         data: [],
         resources: []
@@ -288,6 +289,7 @@ class Bookings extends React.PureComponent {
 
     render() {
       const { data, resources } = this.state;
+      console.log(this.name)
   
       return (
         <Paper>
