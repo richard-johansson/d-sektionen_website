@@ -84,11 +84,11 @@ class Bookings extends React.PureComponent {
       today: "Idag",
       detailsLabel: "Detaljer",
       allDayLabel: "Heldag",
-      titleLabel: "Titel",
+      titleLabel: "[Ditt namn]",
       commitCommand: "Spara",
-      moreInformationLabel: "Beskrivning",
+      moreInformationLabel: "Ändamål",
       repeatLabel: "Upprepa",
-      notesLabel: "Lägg till beskrivning",
+      notesLabel: "Skriv ändamålet med bokningen",
       never: "Upprepas inte",
       daily: "Dagligen",
       weekly: "Veckovis",
@@ -171,6 +171,7 @@ class Bookings extends React.PureComponent {
 
     async postData(booking) {
       booking.email = this.email;
+      booking.title = this.name;
       fetch(`http://localhost:5001/medlem/boka/ny_bokning`, {
         method : "post",
         headers : {
@@ -203,7 +204,9 @@ class Bookings extends React.PureComponent {
 
     async changeData(changedBooking) {
       const id = Object.keys(changedBooking)[0];
+      changedBooking[id].title = this.name;
       changedBooking[id].email = this.email;
+
       fetch(`http://localhost:5001/medlem/boka/uppdatera_bokning/${id}`, {
         method : "put",
         headers : {
