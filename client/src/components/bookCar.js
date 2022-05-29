@@ -10,7 +10,6 @@ import { useAuth0 } from "@auth0/auth0-react";
 export default function BookCar() {
     const {isAuthenticated, user } = useAuth0();
     const navigate = useNavigate();
-    let email = ""
 
     useEffect(() => {
         if(!isAuthenticated){
@@ -18,12 +17,9 @@ export default function BookCar() {
         }
     },[isAuthenticated])
     
-    console.log(isAuthenticated);
     if(!isAuthenticated) {
         return (<div></div>)
     }
-    // email = user.email;
-    console.info("from parent: ", user)
 
     return (
         <div className="container">
