@@ -2,8 +2,8 @@ import React from "react";
  
 // We import bootstrap to make our application look better.
 import "bootstrap/dist/css/bootstrap.css";
-import homeBackground from './homeimg.jpg'
-import "./background.css";
+import homeBackground from '../img/homeimg.jpg'
+import "../css/background.css";
 
 export default function HomePage() {
     return (
@@ -15,7 +15,7 @@ export default function HomePage() {
                 <div className="centeredImage">
                     <img
                         width = "500"
-                        src = {require("./D-logo-color-whiteBG.png")}
+                        src = {require("../img/D-logo-color-whiteBG.png")}
                     >
                     </img>
                 </div>
