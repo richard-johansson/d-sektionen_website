@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React from 'react';
 import Paper from '@mui/material/Paper';
 import { withSnackbar } from 'notistack';
 import { ViewState, EditingState, IntegratedEditing } from '@devexpress/dx-react-scheduler';
@@ -22,7 +22,6 @@ import {
 } from '@devexpress/dx-react-scheduler-material-ui';
 import { styled } from '@mui/material/styles';
 import classNames from 'clsx';
-import { object } from 'prop-types';
 import Kia from '../img/kiaceed.png'; // Import using relative path
 import Tesla from '../img/tesla.jpg'; // Import using relative path
 
@@ -128,7 +127,7 @@ class Bookings extends React.PureComponent {
     async getData() {
       const dataUrl = "http://localhost:5001/medlem/boka/hamta_alla";
     
-      const schedule = await fetch(dataUrl, {headers : { 
+      await fetch(dataUrl, {headers : { 
         'Content-Type': 'application/json',
         'Accept': 'application/json'
         }
@@ -137,7 +136,6 @@ class Bookings extends React.PureComponent {
         return response.json();
       })
       .then((data) => {
-        console.log("getData()", data);
         data = data.map(app => ({id: app._id, ...app}))
         this.setState({
           data: data
@@ -148,7 +146,7 @@ class Bookings extends React.PureComponent {
     async getResources() {
       const resourcesUrl = "http://localhost:5001/medlem/boka/hamta_resurser";
     
-      const schedule = await fetch(resourcesUrl, {headers : { 
+      await fetch(resourcesUrl, {headers : { 
         'Content-Type': 'application/json',
         'Accept': 'application/json'
         }
@@ -157,7 +155,6 @@ class Bookings extends React.PureComponent {
         return response.json();
       })
       .then((data) => {
-        console.log("getResources()", data);
         data = data.map(app => ({id: app._id, ...app}))
         this.setState({
           resources: [{
@@ -181,7 +178,6 @@ class Bookings extends React.PureComponent {
         body : JSON.stringify(booking)
       })
       .then(response => {
-        console.info(response);
         let variant = '', message = '';
         switch (parseInt(response.status)) {
           case 200:
@@ -216,7 +212,6 @@ class Bookings extends React.PureComponent {
         body: JSON.stringify(changedBooking)
       })
       .then(response => {
-        console.info(response);
         let variant = '', message = '';
         switch (parseInt(response.status)) {
           case 200:
@@ -242,8 +237,6 @@ class Bookings extends React.PureComponent {
     };
 
     async deleteData(deletedBooking) {
-      //const reqEmail = this.email;
-      //console.log("reqEmail:", reqEmail)
       fetch(`http://localhost:5001/medlem/boka/ta_bort_bokning/${deletedBooking}`, {
         method : "delete",
         headers : {
@@ -253,7 +246,6 @@ class Bookings extends React.PureComponent {
         body: JSON.stringify({"reqEmail" :  this.email}),
       })
       .then(response => {
-        console.info(response);
         let variant = '', message = '';
         switch (parseInt(response.status)) {
           case 200:
@@ -292,7 +284,6 @@ class Bookings extends React.PureComponent {
 
     render() {
       const { data, resources } = this.state;
-      console.log(this.name)
   
       return (
         <Paper>

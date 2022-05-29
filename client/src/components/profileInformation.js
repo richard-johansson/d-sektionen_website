@@ -9,9 +9,6 @@ const Profile = () => {
     return <div>Loading ...</div>;
   }
 
-  console.log("isAuthenticated:", isAuthenticated, "isLoading:", isLoading);
-  console.log("user:", user?.email);
-
   return (
     isAuthenticated && (
       <div>
