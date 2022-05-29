@@ -3,7 +3,8 @@ import React from "react";
 // We import bootstrap to make our application look better.
 import "bootstrap/dist/css/bootstrap.css";
 
-import background from './newStudents.jpg'
+import background from '../img/newStudents.jpg';
+import "../css/background.css";
 
 export default function NewStudents() {
     return (
@@ -54,7 +55,7 @@ export default function NewStudents() {
                     </li>
                 </ul>
                 <h3>Detta läser du</h3>
-                <img src={require("./content-D.png")} className="img-fluid" alt="Detta läser du"></img>
+                <img src={require("../img/content-D.png")} className="img-fluid" alt="Detta läser du"></img>
                 
                 <h2 className="mt-5">Civilingenjörsprogrammet i informationsteknologi (IT)</h2>
                 <a>Denna utbildning har ett stort fokus på att arbeta i grupp och utmanar studenterna genom sin speciella 
@@ -70,7 +71,7 @@ export default function NewStudents() {
                     </li>
                 </ul>
                 <h3>Detta läser du</h3>
-                <img src={require("./content-IT.png")} className="img-fluid" alt="Detta läser du"></img>
+                <img src={require("../img/content-IT.png")} className="img-fluid" alt="Detta läser du"></img>
 
                 <h2 className="mt-5">Civilingenjörsprogrammet i mjukvaruteknik (U)</h2>
                 <a>Den här utbildning startades år 2013. Utbildningen har tagits fram i samarbete med både studenter 
@@ -86,7 +87,7 @@ export default function NewStudents() {
                     </li>
                 </ul>
                 <h3>Detta läser du</h3>
-                <img src={require("./content-U.png")} className="img-fluid" alt="Detta läser du"></img>
+                <img src={require("../img/content-U.png")} className="img-fluid" alt="Detta läser du"></img>
                 
                 <h2 className="mt-5">Kandidatprogrammet i innovativ programmering (IP)</h2>
                 <a>Detta är ett kandidatprogram för den som är intresserad av eller vill bli bra på att programmera. 
@@ -103,7 +104,7 @@ export default function NewStudents() {
                     </li>
                 </ul>
                 <h3>Detta läser du</h3>
-                <img src={require("./content-IP.png")} className="img-fluid" alt="Detta läser du"></img>
+                <img src={require("../img/content-IP.png")} className="img-fluid" alt="Detta läser du"></img>
 
                 <h2 className="mt-5">Masterprogrammet i Computer Science (CS)</h2>
                 <a>Detta är ett masterprogram för den som har en kandidatexamen inom programmering. Här får man den kunskap 

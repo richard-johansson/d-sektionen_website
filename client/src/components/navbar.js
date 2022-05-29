@@ -32,7 +32,7 @@ export default function Navbar() {
        <NavLink className="navbar-brand" to="/">
         <img
             width = "56"
-            src = {require("./D-logo-color-whiteBG.png")} >
+            src = {require("../img/D-logo-color-whiteBG.png")} >
         </img>
         Datateknologsektionen
        </NavLink>
