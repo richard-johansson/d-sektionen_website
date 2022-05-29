@@ -1,0 +1,29 @@
+body, html {
+    height: 100%;
+  }
+  .bg {
+    height: 100vh;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: rgba(107, 41, 0, 0.5);
+    opacity: 0.9;
+  }
+
+  .centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    text-shadow: black 0.1em 0.1em 0.2em;
+    font-size: 800%;
+  }
+  
+  .centeredImage {
+    color: black;
+    font-size: 400%;
+    display: block;
+    text-align: center;
+    display: block;
+  }

@@ -3,10 +3,19 @@ import React from "react";
 // We import bootstrap to make our application look better.
 import "bootstrap/dist/css/bootstrap.css";
 
+import background from './newStudents.jpg'
+
 export default function NewStudents() {
     return (
         <div>
-            <img src={require("./newStudents.jpg")} className="img-fluid" alt="Nya studenter"></img>
+            <div 
+                className="bg" 
+                style={{backgroundImage: `url(${background})`}} 
+            >
+                <div className="centered">
+                    Sökande
+                </div>
+            </div>
 
             <div className="container">
                 <h2 className="mt-3">Om programmen</h2>
