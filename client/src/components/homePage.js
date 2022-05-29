@@ -2,11 +2,25 @@ import React from "react";
  
 // We import bootstrap to make our application look better.
 import "bootstrap/dist/css/bootstrap.css";
+import homeBackground from './homeimg.jpg'
+import "./background.css";
 
 export default function HomePage() {
     return (
         <div>
-            <img src={require("./homeimg.jpg")} class="img-fluid" alt=":("></img>
+            <div 
+                className="bg" 
+                style={{backgroundImage: `url(${homeBackground})`}} 
+            >
+                <div className="centeredImage">
+                    <img
+                        width = "500"
+                        src = {require("./D-logo-color-whiteBG.png")}
+                    >
+                    </img>
+                </div>
+            </div>
+
             <div class="container">
                 <div class="row">
                     <div class="col">
