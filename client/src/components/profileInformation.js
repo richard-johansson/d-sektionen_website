@@ -5,12 +5,8 @@ const Profile = () => {
   const { user, isAuthenticated, isLoading } = useAuth0();
 
   if (isLoading) {
-    console.log("isLoading:", isLoading);
     return <div>Loading ...</div>;
   }
-
-  console.log("isAuthenticated:", isAuthenticated, "isLoading:", isLoading);
-  console.log("user:", user?.email);
 
   return (
     isAuthenticated && (
