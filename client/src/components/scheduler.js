@@ -247,7 +247,6 @@ class Bookings extends React.PureComponent {
         body: JSON.stringify({"reqEmail" :  this.email}),
       })
       .then(response => {
-        console.info(response);
         let variant = '', message = '';
         switch (parseInt(response.status)) {
           case 200:
@@ -286,7 +285,6 @@ class Bookings extends React.PureComponent {
 
     render() {
       const { data, resources } = this.state;
-      console.log(this.name)
   
       return (
         <Paper>
