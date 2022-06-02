@@ -18,12 +18,9 @@ export default function BookCar() {
         }
     },[isAuthenticated])
     
-    console.log(isAuthenticated);
     if(!isAuthenticated) {
         return (<div></div>)
     }
-    // email = user.email;
-    console.info("from parent: ", user)
 
     return (
         <div className="container">

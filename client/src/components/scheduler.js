@@ -137,7 +137,6 @@ class Bookings extends React.PureComponent {
         return response.json();
       })
       .then((data) => {
-        console.log("getData()", data);
         data = data.map(app => ({id: app._id, ...app}))
         this.setState({
           data: data
@@ -157,7 +156,6 @@ class Bookings extends React.PureComponent {
         return response.json();
       })
       .then((data) => {
-        console.log("getResources()", data);
         data = data.map(app => ({id: app._id, ...app}))
         this.setState({
           resources: [{
@@ -181,7 +179,6 @@ class Bookings extends React.PureComponent {
         body : JSON.stringify(booking)
       })
       .then(response => {
-        console.info(response);
         let variant = '', message = '';
         switch (parseInt(response.status)) {
           case 200:
@@ -216,7 +213,6 @@ class Bookings extends React.PureComponent {
         body: JSON.stringify(changedBooking)
       })
       .then(response => {
-        console.info(response);
         let variant = '', message = '';
         switch (parseInt(response.status)) {
           case 200:
@@ -242,8 +238,6 @@ class Bookings extends React.PureComponent {
     };
 
     async deleteData(deletedBooking) {
-      //const reqEmail = this.email;
-      //console.log("reqEmail:", reqEmail)
       fetch(`http://localhost:5001/medlem/boka/ta_bort_bokning/${deletedBooking}`, {
         method : "delete",
         headers : {
@@ -253,7 +247,6 @@ class Bookings extends React.PureComponent {
         body: JSON.stringify({"reqEmail" :  this.email}),
       })
       .then(response => {
-        console.info(response);
         let variant = '', message = '';
         switch (parseInt(response.status)) {
           case 200:
@@ -292,7 +285,6 @@ class Bookings extends React.PureComponent {
 
     render() {
       const { data, resources } = this.state;
-      console.log(this.name)
   
       return (
         <Paper>

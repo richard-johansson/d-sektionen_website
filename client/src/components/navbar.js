@@ -59,9 +59,9 @@ export default function Navbar() {
             </li>
           </ul>
         </div>
-        <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
-          <ul class="navbar-nav ms-auto">
-            <div class="container pe-4">
+        <div className="navbar-collapse collapse w-100 order-3 dual-collapse2">
+          <ul className="navbar-nav ms-auto">
+            <div className="container pe-4">
               <div className="row">
                 {greeting}
               </div>
