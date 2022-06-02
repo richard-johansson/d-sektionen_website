@@ -29,7 +29,7 @@ export default function Member() {
             <div className="row">
                 <div className="col-md-3 border-right text-center">        
                     <div className="row">
-                        <img class="rounded-circle m-auto align-items-center" style={{width:"150px"}} src={user?.picture}></img>
+                        <img className="rounded-circle m-auto align-items-center" style={{width:"150px"}} src={user?.picture}></img>
                     </div>
                     <div className="row">
                         <h4 className="text-break">{user?.name}</h4>
