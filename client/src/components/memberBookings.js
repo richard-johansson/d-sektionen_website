@@ -247,7 +247,6 @@ class MemberBookings extends React.PureComponent {
               mainResourceName="cars"
             />
             <AppointmentTooltip
-              showOpenButton
               showDeleteButton
               headerComponent={this.Header}
             />
