@@ -21,3 +21,5 @@ These frameworks wil also be used:
 
 ## Screencast
 [Project Screencast](https://youtu.be/unpRPpqx6N0)
+
+[Individual Screencast, Sean](https://youtu.be/qB1x8FastUw)
