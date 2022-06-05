@@ -24,4 +24,4 @@ These frameworks wil also be used:
 
 [Individual Screencast, Sean](https://youtu.be/qB1x8FastUw)
 
-[Individual Screencast, Richard](https://youtu.be/D_meWgfLZjw)
+[Individual Screencast, Richard](https://youtu.be/jBQ6vAqwRBU)
